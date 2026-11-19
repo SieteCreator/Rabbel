@@ -830,10 +830,9 @@ const STR = {
 const REG_NOTE = { it: MENU.info.regNote.it, en: MENU.info.regNote.en };
 const PRICE_NOTE = { it: MENU.info.priceNote.it, en: MENU.info.priceNote.en };
 
-/* ===== Sincronizzazione live dal Google Sheet (foglio "Menù") =====
+/* ===== Conversione dati live del menù =====
    Snapshot di sicurezza: il menù incorporato qui sotto (fin dall'ultima build).
-   Live: se il foglio è condiviso in lettura ("chiunque abbia il link"), la
-   pagina rilegge TUTTO il menù ad ogni apertura — categorie, ordine dei
+   Live: Supabase fornisce il menù aggiornato — categorie, ordine dei
    piatti, nomi e descrizioni IT/EN, prezzi, allergeni, badge e disponibi­lità —
    e sostituisce lo snapshot all'istante. Se il foglio non è raggiungibile
    o la rete non c'è, resta lo snapshot (nessuna rottura). */
@@ -907,21 +906,7 @@ function applySheetMenu(resp){
     return true;
   } catch (e) { return false; }
 }
-(function loadSheetMenu(){
-  const s = document.createElement('script');
-  window.rabelAvailCb = applySheetMenu;
-  window.google = window.google || {};
-  window.google.visualization = window.google.visualization || {};
-  window.google.visualization.Query = window.google.visualization.Query || {};
-  window.google.visualization.Query.setResponse = function(resp){
-    const n = resp && resp.table && resp.table.cols ? resp.table.cols.length : 0;
-    if (n && n <= 2) applySheetHours(resp); else applySheetMenu(resp);
-  };
-  s.src = 'https://docs.google.com/spreadsheets/d/1rkfliKqA5R4jnnFOhP0RiLMLA4y93OMvNHfnAnbkjhU/gviz/tq?tqx=out:json;responseHandler:rabelAvailCb&sheet=Men%C3%B9&range=A4:J60&_t=' + Date.now();
-  s.async = true;
-  s.onerror = function(){ /* snapshot invariato */ };
-  document.head.appendChild(s);
-})();
+
 
 /* ===== Sincronizzazione live ORARI dal foglio "Info & Orari" =====
    Espande le righe-gruppo (es. "Mercoledì – Venerdì  12:00 – 15:30 · 18:30 – 20:30")
@@ -969,14 +954,7 @@ function applySheetHours(resp){
     return true;
   } catch (e) { return false; }
 }
-(function loadSheetHours(){
-  const s = document.createElement('script');
-  window.rabelHoursCb = applySheetHours;
-  s.src = 'https://docs.google.com/spreadsheets/d/1rkfliKqA5R4jnnFOhP0RiLMLA4y93OMvNHfnAnbkjhU/gviz/tq?tqx=out:json;responseHandler:rabelHoursCb&sheet=Info%20%26%20Orari&range=A1:B40&_t=' + Date.now();
-  s.async = true;
-  s.onerror = function(){ /* snapshot invariato */ };
-  document.head.appendChild(s);
-})();
+
 
 /* ===== Sincronizzazione live INFO dal foglio "Info" (contatti, social, link, note) =====
    Il foglio "Info" (creato dal pannello gestionale) contiene righe Chiave|Valore.
@@ -999,14 +977,14 @@ function applySheetInfo(resp){
     if (val('tagline_it')) STR.it.tagline = d.tagline_it;
     if (val('tagline_en')) STR.en.tagline = d.tagline_en;
     if (val('reviews')) { STR.it.reviews = d.reviews + '+ recensioni su Google'; STR.en.reviews = d.reviews + '+ reviews on Google'; }
-    if (val('delivery_note_it')) STR.it.deliveryNote = d.delivery_note_it;
-    if (val('delivery_note_en')) STR.en.deliveryNote = d.delivery_note_en;
+    if (val('delivery_note_it')) STR.it.deliveryNote = escAttr(d.delivery_note_it);
+    if (val('delivery_note_en')) STR.en.deliveryNote = escAttr(d.delivery_note_en);
 
     /* --- note legali (innerHTML) --- */
-    if (val('price_note_it')) PRICE_NOTE.it = d.price_note_it;
-    if (val('price_note_en')) PRICE_NOTE.en = d.price_note_en;
-    if (val('reg_note_it'))   REG_NOTE.it   = d.reg_note_it;
-    if (val('reg_note_en'))   REG_NOTE.en   = d.reg_note_en;
+    if (val('price_note_it')) PRICE_NOTE.it = escAttr(d.price_note_it);
+    if (val('price_note_en')) PRICE_NOTE.en = escAttr(d.price_note_en);
+    if (val('reg_note_it'))   REG_NOTE.it   = escAttr(d.reg_note_it);
+    if (val('reg_note_en'))   REG_NOTE.en   = escAttr(d.reg_note_en);
 
     /* --- telefono --- */
     if (val('phone')) { info.phone = d.phone; $$('[data-info-phone]').forEach(el => el.textContent = d.phone); }
@@ -1029,7 +1007,7 @@ function applySheetInfo(resp){
 
     /* --- link esterni --- */
     const HREF_KEYS = ['maps_url','justeat_url','glovo_url','deliveroo_url','review_url','instagram_url','facebook_url'];
-    for (const k of HREF_KEYS) if (val(k)) $$('[data-info-href="' + k + '"]').forEach(el => el.href = d[k]);
+    for (const k of HREF_KEYS) if (val(k) && /^https?:\/\//i.test(d[k])) $$('[data-info-href="' + k + '"]').forEach(el => el.href = d[k]);
 
     /* --- handle Instagram --- */
     if (val('instagram_handle')) $$('[data-info-ig-handle]').forEach(el => el.textContent = d.instagram_handle);
@@ -1045,14 +1023,7 @@ function applySheetInfo(resp){
     return true;
   } catch (e) { return false; }
 }
-(function loadSheetInfo(){
-  const s = document.createElement('script');
-  window.rabelInfoCb = applySheetInfo;
-  s.src = 'https://docs.google.com/spreadsheets/d/1rkfliKqA5R4jnnFOhP0RiLMLA4y93OMvNHfnAnbkjhU/gviz/tq?tqx=out:json;responseHandler:rabelInfoCb&sheet=Info&range=A2:B80&_t=' + Date.now();
-  s.async = true;
-  s.onerror = function(){ /* snapshot invariato */ };
-  document.head.appendChild(s);
-})();
+
 
 
 let lang = 'it'; try { lang = localStorage.getItem('rabel-lang') || 'it'; } catch (e) { /* sandboxed */ }
@@ -1075,7 +1046,7 @@ function renderRibbon(){
 function renderPills(){
   const cats = [{id:'all', it:STR[lang].all, en:STR[lang].all}, ...MENU.categories];
   $('#pillRow').innerHTML = cats.map(c =>
-    `<button class="pill${c.id===activeCat?' active':''}" onclick="setCategory('${c.id}')" role="tab">${L(c)}</button>`
+    `<button class="pill${c.id===activeCat?' active':''}" onclick="setCategory('${c.id}')" role="tab">${escAttr(L(c))}</button>`
   ).join('');
 }
 
@@ -1095,7 +1066,7 @@ function renderHours(){
   $('#hoursTable').innerHTML = MENU.info.hours.map((h, i) => {
     const isToday = i === todayIdx;
     const dayCell = `${L(h.days)}${isToday ? `<span class="today-tag">${STR[lang].today}</span>` : ''}`;
-    return `<tr class="${isToday ? 'today' : ''}"><td style="font-weight:700">${dayCell}</td><td style="text-align:right">${h.closed ? `<span class="closed">${STR[lang].closed}</span>` : L(h.time)}</td></tr>`;
+    return `<tr class="${isToday ? 'today' : ''}"><td style="font-weight:700">${dayCell}</td><td style="text-align:right">${h.closed ? `<span class="closed">${STR[lang].closed}</span>` : escAttr(L(h.time))}</td></tr>`;
   }).join('');
 }
 
@@ -1172,27 +1143,27 @@ function renderSections(){
         let photoBtn = '';
         if (item.photo) {
           const pi = window.__photos.push({ src: item.photo, title: L(item.name), desc: L(item.desc), price: priceTxt }) - 1;
-          photoBtn = `<button class="card-photo" type="button" data-pi="${pi}" aria-label="${escAttr(STR[lang].photoAria + ' ' + L(item.name))}"><img src="${item.photo}" alt="${escAttr(L(item.name))}" loading="lazy" decoding="async"><span class="card-photo-hint">📷 ${STR[lang].photoBtn}</span></button>`;
+          photoBtn = `<button class="card-photo" type="button" data-pi="${pi}" aria-label="${escAttr(STR[lang].photoAria + ' ' + L(item.name))}"><img src="${escAttr(item.photo)}" alt="${escAttr(L(item.name))}" loading="lazy" decoding="async"><span class="card-photo-hint">📷 ${STR[lang].photoBtn}</span></button>`;
         }
         return `
         <article class="card${unav ? ' unavailable' : ''}"${unav ? ' aria-disabled="true"' : ''}>
           ${unav ? `<div class="unav-overlay" aria-hidden="true"><span>${STR[lang].unav}</span></div>` : ''}
           <div class="card-top">
-            <h3 class="item-name">${L(item.name)}</h3>
+            <h3 class="item-name">${escAttr(L(item.name))}</h3>
             ${item.price === null
               ? `<span class="price banco">${STR[lang].priceBanco}</span>`
               : `<span class="price">${fmtPrice(item.price)}</span>`}
           </div>
           ${photoBtn}
-          <p class="item-desc">${L(item.desc)}</p>
+          <p class="item-desc">${escAttr(L(item.desc))}</p>
           <div class="card-foot">
-            <div class="allergen-codes" title="${STR[lang].allergenWord}: ${item.allergens.join(', ') || '—'}">${item.allergens.map(a=>`<span class="acode">${a}</span>`).join('')}</div>
+            <div class="allergen-codes" title="${STR[lang].allergenWord}: ${escAttr(item.allergens.join(', ') || '—')}">${item.allergens.map(a=>`<span class="acode">${escAttr(a)}</span>`).join('')}</div>
             <div class="badge-row">${item.badges.filter(b=>!(b==='banco'&&item.price===null)).map(badgeHtml).join('')}</div>
           </div>
         </article>`; }).join('');
       return `<section class="cat" id="cat-${cat.id}" aria-labelledby="t-${cat.id}">
         <div class="cat-head">
-          <div><p class="kicker">${L(cat.kicker)}</p><h2 class="cat-title" id="t-${cat.id}">${L(cat)}<span class="hl"></span></h2></div>
+          <div><p class="kicker">${L(cat.kicker)}</p><h2 class="cat-title" id="t-${cat.id}">${escAttr(L(cat))}<span class="hl"></span></h2></div>
           ${cat.id==='specialita' ? '<span class="special-badge">✦ Top pick</span>' : ''}
         </div>
         <div class="grid">${cards}</div>
@@ -1260,5 +1231,6 @@ $('#yr').textContent = new Date().getFullYear();
 setLang(lang);
 setInterval(renderNowStatus, 60000);
 </script>
+<script src="supabase-live.js" defer></script>
 </body>
 </html>
