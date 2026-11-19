@@ -6,7 +6,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: apk-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -29,12 +33,22 @@ jobs:
       - name: Build APK (debug, nessun segreto dentro la build)
         run: gradle -p android assembleDebug
 
-      - name: Rinomina l'APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk Rabel-Gestione.apk
+      - name: Pubblica l'APK in downloads/
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk downloads/Rabel-Gestione.apk
+          if git diff --quiet -- downloads/Rabel-Gestione.apk; then
+            echo "APK identico al precedente: nessun commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/Rabel-Gestione.apk
+          git commit -m "Aggiorna APK (build ${GITHUB_SHA::7}) [skip ci]"
+          git push origin HEAD:${GITHUB_REF_NAME}
 
       - uses: actions/upload-artifact@v4
         with:
           name: rabel-gestione-apk
-          path: Rabel-Gestione.apk
+          path: downloads/Rabel-Gestione.apk
           if-no-files-found: error
           retention-days: 90
