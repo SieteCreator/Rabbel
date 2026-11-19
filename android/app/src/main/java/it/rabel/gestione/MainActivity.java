@@ -36,7 +36,11 @@ public final class MainActivity extends Activity {
         web.setWebViewClient(new WebViewClient() {
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
-                return !"https".equals(uri.getScheme()) || !HOST.equals(uri.getHost());
+                if ("https".equals(uri.getScheme()) && HOST.equals(uri.getHost())) return false;
+                if ("https".equals(uri.getScheme()) || "http".equals(uri.getScheme())) {
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, uri)); } catch (Exception ignored) { /* nessun browser */ }
+                }
+                return true;
             }
             @Override public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
@@ -44,12 +48,12 @@ public final class MainActivity extends Activity {
                 String path = uri.getPath();
                 if (path == null || !path.startsWith("/assets/") || path.contains("..")) return blocked();
                 String name = path.substring("/assets/".length());
-                if (!(name.equals("index.html") || name.equals("capability.js") || name.equals("domain.js") || name.equals("client.js") || name.equals("ui.js"))) return blocked();
+                if (!(name.equals("index.html") || name.equals("domain.js") || name.equals("client.js") || name.equals("ui.js"))) return blocked();
                 String type = name.endsWith(".html") ? "text/html" : "application/javascript";
                 try { return new WebResourceResponse(type, "UTF-8", getAssets().open(name)); }
                 catch (IOException e) { return blocked(); }
             }
-            private WebResourceResponse blocked() { return new WebResourceResponse("text/plain", "UTF-8", 404, "Not Found", null, null); }
+            private WebResourceResponse blocked() { return new WebResourceResponse("text/plain", "UTF-8", 404, "Not Found", null, new java.io.ByteArrayInputStream(new byte[0])); }
         });
         web.setWebChromeClient(new WebChromeClient() {
             @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback, FileChooserParams params) {

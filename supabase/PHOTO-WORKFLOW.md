@@ -7,10 +7,11 @@ l'URL pubblico e ricarica i dati periodicamente. Le foto sono pubbliche; le
 scritture su Storage e piatti sono riservate agli utenti autenticati elencati
 in `rabel_owners` tramite RLS. L'account del proprietario va ancora configurato.
 
-Per il futuro gestionale/APK:
+Per il gestionale:
 
-1. Autenticare il proprietario con Supabase Auth; non includere la service-role
-   key nell'app. Solo il proprietario autorizzato può scrivere.
+1. Il proprietario accede con Supabase Auth (email + password); gli utenti
+   autorizzati sono elencati in `rabel_owners` e le RLS applicano i permessi.
+   Nessuna service-role key è inclusa nell'app.
 2. Verificare formato JPEG, PNG o WebP e dimensione massima 5 MiB.
 3. Caricare ogni nuova foto con un percorso **unico**, ad esempio
    `dishes/<id>/<uuid>.jpg`, evitando sovrascritture che potrebbero mantenere

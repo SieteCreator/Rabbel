@@ -10,7 +10,7 @@ let state = {dishes:[],categories:[],hours:[],info:{}};
 let photoTarget = null;
 function banner(text) { const el=$('#banner'); el.textContent=text||''; el.style.display=text?'block':'none'; }
 function toast(text) { const el=$('#toast'); el.textContent=text; el.style.display='block'; setTimeout(()=>el.style.display='none',3000); }
-async function busy(fn) { $$('.btn').forEach(x=>x.disabled=true); banner(''); try { await fn(); } catch(e) { banner(e.message || 'Errore di connessione'); } finally { $$('.btn').forEach(x=>x.disabled=false); } }
+async function busy(fn) { $$('.btn').forEach(x=>x.disabled=true); banner(''); try { await fn(); } catch(e) { const m=(e && e.message) || 'Errore di connessione'; if (/Accedi|Sessione scaduta|permessi/.test(m)) showLogin(m); else { banner(m); if (!$('#view-login').hidden) $('#login-status').textContent = m; } } finally { $$('.btn').forEach(x=>x.disabled=false); } }
 async function load() {
   const [dishes,categories,hours,info] = await Promise.all([
     api.table('rabel_dishes',{select:'*',order:'position.asc,id.asc'}),
@@ -18,7 +18,10 @@ async function load() {
     api.table('rabel_hours',{select:'*',order:'position.asc,id.asc'}),
     api.table('rabel_info',{select:'*'})
   ]);
-  state={dishes,categories,hours:domain.expandHours(hours),info:Object.fromEntries(info.map(x=>[x.key,x.value]))};
+  let parsedHours;
+  try { parsedHours = domain.expandHours(hours); }
+  catch (e) { if (hours.length) throw e; parsedHours = domain.DAYS.map(days => ({days, slots:[]})); }
+  state={dishes,categories,hours:parsedHours,info:Object.fromEntries(info.map(x=>[x.key,x.value]))};
   renderAll();
 }
 function chipHTML(list,selected=[]) { return list.map(item=>{const id=typeof item==='string'?item:item.id, label=typeof item==='string'?item:item.label; return `<button type="button" class="chip${selected.includes(id)?' on':''}" data-val="${esc(id)}">${esc(label)}</button>`;}).join(''); }
@@ -83,4 +86,33 @@ async function preparePhoto(file) {
   } finally { bitmap.close(); }
 }
 $('#foto-input').addEventListener('change',()=>{const file=$('#foto-input').files[0]; if(file&&photoTarget) busy(async()=>{await api.upload(await preparePhoto(file),photoTarget); await load(); toast('Foto salvata');});});
-busy(async()=>{await load(); $('#connDot').textContent='● connesso'; $('#connDot').classList.remove('off');});
+function showLogin(message) {
+  $('#view-app').hidden = true;
+  $('#view-login').hidden = false;
+  $('#btn-logout').hidden = true;
+  $('#login-status').textContent = message || '';
+  $('#connDot').textContent = '● non connesso';
+  $('#connDot').classList.add('off');
+}
+async function enterApp() {
+  $('#view-login').hidden = true;
+  $('#view-app').hidden = false;
+  $('#btn-logout').hidden = false;
+  await load();
+  $('#connDot').textContent = '● connesso';
+  $('#connDot').classList.remove('off');
+}
+$('#btn-login').onclick = () => busy(async () => {
+  await api.login($('#l-email').value.trim(), $('#l-password').value);
+  $('#l-password').value = '';
+  await enterApp();
+});
+$('#l-email').addEventListener('keydown', e => { if (e.key === 'Enter') $('#l-password').focus(); });
+$('#l-password').addEventListener('keydown', e => { if (e.key === 'Enter') $('#btn-login').click(); });
+$('#btn-logout').onclick = () => {
+  if (!confirm('Uscire dall’account?')) return;
+  api.logout(); showLogin(); banner('');
+};
+if (location.hostname === 'appassets.androidplatform.net') $('#site-link').hidden = true;
+if (api.session()) enterApp().catch(e => { if (/Accedi|Sessione scaduta|permessi/.test(e.message || '')) showLogin(e.message); else banner(e.message); });
+else showLogin();
