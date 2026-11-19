@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#191512">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rabel Menù">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<title>Rabel — Gestione Menù</title>
+<style>
+:root{
+  --paper:#FBF4E4; --ink:#191512; --red:#E23B2E; --yellow:#FFC933; --teal:#0F7E93;
+  --green:#3E9B4F; --shadow:0 3px 0 var(--ink);
+}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+body{background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; padding-bottom:80px;}
+header{position:sticky; top:0; z-index:10; background:var(--ink); color:var(--paper); padding:10px 16px; display:flex; align-items:center; gap:10px;}
+header .logo{font-size:1.05rem; font-weight:800; letter-spacing:.5px; white-space:nowrap;}
+header .logo em{color:var(--yellow); font-style:normal;}
+header .spacer{flex:1;}
+header a.site{color:var(--yellow); font-size:.8rem; text-decoration:none; border:1px solid var(--yellow); border-radius:8px; padding:6px 10px;}
+#connDot{font-size:.75rem; color:#9be3b0; white-space:nowrap;}
+#connDot.off{color:#ffb3ab;}
+main{max-width:780px; margin:0 auto; padding:14px;}
+.card{background:#fff; border:2.5px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:14px; margin-bottom:14px;}
+h2{font-size:1.15rem; margin-bottom:10px;}
+label{display:block; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin:10px 0 4px; color:#4A443C;}
+input[type=text], input[type=number], input[type=url], input[type=password], textarea, select{
+  width:100%; padding:10px 12px; border:2px solid var(--ink); border-radius:10px; font-size:.95rem; background:#fff; font-family:inherit;
+}
+input:focus, textarea:focus, select:focus{outline:3px solid var(--yellow);}
+textarea{min-height:64px; resize:vertical;}
+.row{display:flex; gap:10px;} .row > *{flex:1;}
+.btn{display:inline-flex; align-items:center; gap:8px; border:2.5px solid var(--ink); background:var(--yellow); color:var(--ink); padding:12px 16px; border-radius:12px; font-weight:800; font-size:.95rem; cursor:pointer; box-shadow:var(--shadow);}
+.btn:active{transform:translateY(2px); box-shadow:0 1px 0 var(--ink);}
+.btn.red{background:var(--red); color:#fff;}
+.btn.ghost{background:#fff;}
+.btn.small{padding:8px 12px; font-size:.85rem; box-shadow:0 2px 0 var(--ink);}
+.btn:disabled{opacity:.5; pointer-events:none;}
+.muted{font-size:.8rem; color:#6b6459;}
+/* login */
+#view-login{max-width:520px; margin:40px auto;}
+.brand-hero{text-align:center; margin-bottom:16px;}
+.brand-hero .big{font-size:2rem; font-weight:900; letter-spacing:1px;}
+.brand-hero .big em{color:var(--red); font-style:normal;}
+.brand-hero p{margin-top:4px; color:#4A443C;}
+/* tabs */
+.tabs{display:flex; gap:8px; margin:10px 0 14px; overflow-x:auto; padding-bottom:4px;}
+.tab{flex:1; text-align:center; border:2.5px solid var(--ink); background:#fff; padding:10px 6px; border-radius:12px; font-weight:800; cursor:pointer; white-space:nowrap; font-size:.85rem;}
+.tab.active{background:var(--ink); color:var(--yellow);}
+/* dish list */
+.toolbar{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+.toolbar input{flex:2; min-width:150px;}
+.toolbar select{flex:1; min-width:130px;}
+.foto-item{display:flex; gap:12px; align-items:center; border:2px solid var(--ink); border-radius:12px; background:#fff; padding:10px; margin-bottom:10px;}
+.foto-thumb{width:84px; height:84px; flex:none; border-radius:14px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:1.7rem; overflow:hidden; background:repeating-linear-gradient(45deg,#F3EFE2,#F3EFE2 8px,#E9E4D2 8px,#E9E4D2 16px);}
+.foto-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+.foto-meta{flex:1; min-width:0;}
+.foto-meta .nm{font-weight:800; font-size:.95rem;}
+.foto-meta .pr{font-size:.75rem; color:#6b6459; margin-top:2px;}
+.foto-actions{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+.foto-actions .btn{padding:7px 11px; font-size:.8rem; box-shadow:0 2px 0 var(--ink);}
+.dish{border:2px solid var(--ink); border-radius:12px; background:#fff; margin-bottom:10px; overflow:hidden;}
+.dish-head{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer;}
+.dish-head .nm{flex:1; font-weight:800;}
+.dish-head .pr{font-weight:800; background:var(--ink); color:var(--yellow); padding:2px 10px; border-radius:8px; font-size:.85rem; white-space:nowrap;}
+.dish-head .unavail{background:var(--red); color:#fff; font-size:.65rem; font-weight:800; border-radius:6px; padding:3px 6px; letter-spacing:.5px;}
+.dish-body{display:none; border-top:2px dashed var(--ink); padding:12px;}
+.dish.open .dish-body{display:block;}
+.chips{display:flex; flex-wrap:wrap; gap:6px;}
+.chip{border:2px solid var(--ink); border-radius:999px; padding:6px 10px; background:#fff; font-size:.8rem; font-weight:700; cursor:pointer; user-select:none;}
+.chip.on{background:var(--ink); color:#fff;}
+.switch{position:relative; width:56px; height:30px; flex:0 0 auto;}
+.switch input{opacity:0; width:100%; height:100%; position:absolute; cursor:pointer; z-index:2; margin:0;}
+.track{position:absolute; inset:0; border:2px solid var(--ink); border-radius:999px; background:#fff; transition:background .15s;}
+.thumb{position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%; background:var(--green); border:2px solid var(--ink); transition:left .15s;}
+.switch input:not(:checked) ~ .track{background:#ffd9d4;}
+.switch input:not(:checked) ~ .thumb{left:2px; background:var(--red);}
+.switch input:checked ~ .thumb{left:26px;}
+.actions{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+/* hours */
+.hour-row{display:flex; gap:8px; align-items:center; margin-bottom:8px;}
+.hour-row input:first-child{flex:1.1;}
+.hour-row input:last-child{flex:1.6;}
+.hour-row button{flex:0 0 auto;}
+/* toast & banner */
+#toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:12px 18px; border-radius:12px; font-weight:700; font-size:.9rem; z-index:50; display:none; max-width:90vw; text-align:center;}
+#banner{display:none; background:#ffd9d4; border:2px solid var(--red); color:#8a1508; padding:10px 12px; border-radius:10px; margin-bottom:12px; font-size:.85rem; font-weight:600; white-space:pre-wrap;}
+.group-title{font-size:.78rem; text-transform:uppercase; letter-spacing:.6px; color:var(--red); font-weight:900; margin:14px 0 6px; border-bottom:2px solid var(--ink); padding-bottom:4px;}
+.help li{margin:6px 0 6px 18px; font-size:.9rem; line-height:1.45;}
+@media (max-width:560px){ .row{flex-direction:column;} header .site{display:none;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🥖 PANINOTECA <em>RABEL</em> · Gestione</div>
+  <div class="spacer"></div>
+  <span id="connDot" class="off">● non connesso</span>
+  <a class="site" href="/" target="_blank" rel="noopener">Vedi il menù →</a>
+</header>
+
+<main>
+<div id="banner"></div>
+
+<!-- ═════════ LOGIN ═════════ -->
+<div id="view-login">
+  <div class="brand-hero">
+    <div class="big">PANINOTECA <em>RABEL</em></div>
+    <p>Gestione menù — accesso riservato al proprietario</p>
+  </div>
+  <div class="card">
+    <h2>Accedi al pannello</h2>
+    <p class="muted">Incolla qui l'indirizzo della Web App e la password che hai scelto in Apps Script (vedi Istruzione.txt). Restano salvati solo su questo dispositivo.</p>
+    <label for="f-url">Indirizzo Web App (…/exec)</label>
+    <input type="url" id="f-url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
+    <label for="f-token">Password</label>
+    <input type="password" id="f-token" placeholder="La tua password del pannello" autocomplete="current-password">
+    <div style="margin-top:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <button class="btn" id="btn-login">Accedi</button>
+      <span class="muted" id="login-status"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════ APP ═════════ -->
+<div id="view-app" hidden>
+  <div class="tabs">
+    <button class="tab active" data-tab="piatti">🍽 Piatti</button>
+    <button class="tab" data-tab="foto">📷 Foto</button>
+    <button class="tab" data-tab="orari">🕒 Orari</button>
+    <button class="tab" data-tab="info">📇 Info &amp; Social</button>
+    <button class="tab" data-tab="aiuto">❓ Come funziona</button>
+  </div>
+
+  <div id="tab-piatti">
+    <div class="toolbar">
+      <input type="text" id="dish-search" placeholder="Cerca piatto…">
+      <select id="dish-cat"><option value="">Tutte le categorie</option></select>
+      <button class="btn small red" id="btn-add-toggle">+ Aggiungi piatto</button>
+      <button class="btn small ghost" id="btn-backup">⬇ Backup</button>
+    </div>
+
+    <div class="card" id="add-dish-card" hidden>
+      <h2>Nuovo piatto</h2>
+      <label for="n-cat">Categoria *</label><select id="n-cat"></select>
+      <div class="row"><div><label for="n-name">Nome (IT) *</label><input type="text" id="n-name" placeholder="es. BeefBurger Deluxe"></div>
+      <div><label for="n-nameen">Nome (EN)</label><input type="text" id="n-nameen" placeholder="es. Deluxe BeefBurger"></div></div>
+      <div class="row"><div><label for="n-price">Prezzo € (vuoto = solo al banco)</label><input type="text" id="n-price" placeholder="es. 8,50" inputmode="decimal"></div>
+      <div><label>Disponibile al banco?</label><div class="switch"><input type="checkbox" id="n-avail" checked><span class="track"></span><span class="thumb"></span></div></div></div>
+      <label for="n-desc">Descrizione (IT)</label><textarea id="n-desc" placeholder="Ingredienti e note…"></textarea>
+      <label for="n-descen">Descrizione (EN)</label><textarea id="n-descen" placeholder="Ingredients & notes…"></textarea>
+      <label>Allergeni</label><div class="chips" id="n-allergens"></div>
+      <label>Badge</label><div class="chips" id="n-badges"></div>
+      <div class="actions"><button class="btn" id="btn-add-save">Aggiungi piatto</button><button class="btn ghost" id="btn-add-cancel">Annulla</button></div>
+    </div>
+
+    <div id="dish-list"></div>
+  </div>
+
+  <div id="tab-foto" hidden>
+    <div class="card">
+      <h2>Foto dei piatti</h2>
+      <p class="muted">Quando hai preparato un piatto: tocca <b>📷 Scatta</b> e fai la foto. Oppure tocca <b>🖼 Scegli</b> per prenderla dalla galleria. La foto viene rimpicciolita e salvata sul tuo <b>Google Drive</b> (cartella «Paninoteca Rabel — Foto menù») e appare nel menù del QR in qualche secondo.</p>
+      <p class="muted" id="foto-status" style="margin-top:10px;font-weight:700;"></p>
+    </div>
+    <div id="foto-list"></div>
+    <input type="file" id="foto-input" accept="image/*" hidden>
+  </div>
+
+  <div id="tab-orari" hidden>
+    <div class="card">
+      <h2>Orari di apertura</h2>
+      <p class="muted">Una riga per giorno o intervallo. Formato orari: <b>12:00 – 15:30 · 18:30 – 20:30</b> oppure <b>Chiuso</b>. Usa il trattino (–) tra gli orari. Esempio intervallo: <b>Mercoledì – Venerdì</b>.</p>
+      <div id="hours-rows" style="margin-top:12px;"></div>
+      <button class="btn small ghost" id="btn-add-hour">+ Aggiungi riga</button>
+      <div class="actions"><button class="btn" id="btn-save-hours">💾 Salva orari</button></div>
+    </div>
+  </div>
+
+  <div id="tab-info" hidden>
+    <div class="card">
+      <h2>Info locale, contatti e social</h2>
+      <div class="group-title">Contatti e posizione</div>
+      <div class="row"><div><label for="i-phone">Telefono (come si legge)</label><input type="text" id="i-phone" placeholder="011 060 6294"></div>
+      <div><label for="i-phonehref">Telefono per il tasto (senza spazi)</label><input type="text" id="i-phonehref" placeholder="+390110606294" inputmode="tel"></div></div>
+      <div class="row"><div><label for="i-address">Indirizzo</label><input type="text" id="i-address" placeholder="Via San Tommaso 4B"></div>
+      <div><label for="i-cap">CAP</label><input type="text" id="i-cap" placeholder="10122"></div>
+      <div><label for="i-city">Città</label><input type="text" id="i-city" placeholder="Torino"></div></div>
+      <label for="i-district">Quartiere</label><input type="text" id="i-district" placeholder="Quadrilatero Romano">
+      <label for="i-maps">Link Google Maps</label><input type="url" id="i-maps" placeholder="https://www.google.com/maps/…">
+      <label for="i-review">Link «Lascia una recensione»</label><input type="url" id="i-review" placeholder="https://search.google.com/local/writereview?…">
+
+      <div class="group-title">Consegne (Just Eat / Glovo / Deliveroo)</div>
+      <label for="i-justeat">Just Eat — URL menù</label><input type="url" id="i-justeat" placeholder="https://www.justeat.it/…">
+      <label for="i-glovo">Glovo — URL menù</label><input type="url" id="i-glovo" placeholder="https://glovoapp.com/…">
+      <label for="i-deliveroo">Deliveroo — URL menù</label><input type="url" id="i-deliveroo" placeholder="https://deliveroo.it/…">
+
+      <div class="group-title">Social</div>
+      <label for="i-ig">Instagram — URL profilo</label><input type="url" id="i-ig" placeholder="https://www.instagram.com/paninoteca.rabel/">
+      <label for="i-ighandle">Instagram — nome mostrato</label><input type="text" id="i-ighandle" placeholder="@paninoteca.rabel">
+      <label for="i-fb">Facebook — URL pagina</label><input type="url" id="i-fb" placeholder="https://www.facebook.com/p/…">
+
+      <div class="group-title">Google — punteggio</div>
+      <div class="row"><div><label for="i-rating">Voto</label><input type="text" id="i-rating" placeholder="4.8" inputmode="decimal"></div>
+      <div><label for="i-reviews">Numero recensioni</label><input type="text" id="i-reviews" placeholder="230" inputmode="numeric"></div></div>
+
+      <div class="group-title">Slogan del locale</div>
+      <label for="i-taglineit">Sottotitolo (IT)</label><input type="text" id="i-taglineit" placeholder="Panini, burger e street food nel cuore di Torino">
+      <label for="i-taglineen">Headline (EN)</label><input type="text" id="i-taglineen" placeholder="Panini, burgers and street food in the heart of Turin">
+
+      <div class="group-title">Note legali e consegna (facoltative)</div>
+      <label for="i-priceit">Nota prezzi (IT)</label><textarea id="i-priceit"></textarea>
+      <label for="i-priceen">Price note (EN)</label><textarea id="i-priceen"></textarea>
+      <label for="i-regit">Nota allergeni (IT)</label><textarea id="i-regit"></textarea>
+      <label for="i-regen">Allergen note (EN)</label><textarea id="i-regen"></textarea>
+      <label for="i-delit">Nota consegne (IT)</label><textarea id="i-delit"></textarea>
+      <label for="i-delen">Delivery note (EN)</label><textarea id="i-delen"></textarea>
+
+      <div class="actions"><button class="btn" id="btn-save-info">💾 Salva info</button></div>
+    </div>
+  </div>
+
+  <div id="tab-aiuto" hidden>
+    <div class="card">
+      <h2>Come funziona (in 4 punti)</h2>
+      <ul class="help">
+        <li><b>1. Modifichi qui, vedono tutti.</b> La pagina pubblica (il QR sui tavoli) rilegge questo foglio ad ogni apertura: le modifiche appaiono subito ai clienti.</li>
+        <li><b>2. Nessun foglio Google da aprire.</b> Questo pannello parla con Google al posto tuo tramite un «ponte» che abbiamo installato una volta sola.</li>
+        <li><b>3. «Esaurito» in un tocco.</b> Disattiva l'interruttore sulla card del piatto: scompare dai risultati fino a quando lo riaccendi. Il nome resta nel menù ma segnato non disponibile.</li>
+        <li><b>4. Se qualcosa va storto</b>, premi «⬇ Backup» una volta al mese: scarica tutto il menù in un file. Poi ricarica la pagina.</li>
+      </ul>
+      <p class="muted" style="margin-top:10px">Le <b>foto</b> dei piatti le carichi dalla scheda <b>📷 Foto</b>. Vuoi cambiare tema e colori? È la Fase 3 (in arrivo). Le categorie/nuovi piatti con tutti i campi sono la Fase 4.</p>
+      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn ghost small" id="btn-logout">⬅ Esci da questo dispositivo</button>
+        <button class="btn small" id="btn-reload">🔄 Ricarica i dati</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ═══════════════════════════════════════════════════════════
+   Rabel Admin — pannello gestionale del menù
+   Parla con Google Apps Script tramite JSONP (nessun backend da mantenere).
+   ═══════════════════════════════════════════════════════════ */
+const ALLERGENS = ['GL','LA','UO','PE','SO','SE','SO2','FG'];
+const BADGES    = [ {id:'pop',label:'★ Più ordinato'}, {id:'combo',label:'Combo'}, {id:'spicy',label:'🌶 Piccante'}, {id:'raw',label:'Crudo'}, {id:'veg',label:'Vegetariano'}, {id:'banco',label:'Solo al banco'} ];
+const DAY_RE  = /^[A-Za-zÀ-ÿ]+(\s*[–—-]\s*[A-Za-zÀ-ÿ]+)?$/;
+const SLOT_RE = /^(\d{1,2}:\d{2}\s*[–—-]\s*\d{1,2}:\d{2})(\s*·\s*\d{1,2}:\d{2}\s*[–—-]\s*\d{1,2}:\d{2})*$/;
+const CHIUSO_RE = /^(chiuso|closed)$/i;
+const state = { url:'', token:'', dishes:[], categories:[], hours:[], info:{} };
+
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const parsePrice = v => {
+  if (v === '' || v == null) return null;
+  const n = parseFloat(String(v).replace('€','').trim().replace(/\.(?=\d{3}\b)/g,'').replace(',', '.'));
+  return isNaN(n) ? null : n;
+};
+const fmtPrice = p => (p === null || p === undefined || p === '') ? 'AL BANCO' : Number(p).toFixed(2).replace('.', ',') + '€';
+const toast = (msg, ok=true) => { const t = $('#toast'); t.textContent = msg; t.style.background = ok ? 'var(--ink)' : 'var(--red)'; t.style.display='block'; setTimeout(() => t.style.display='none', 3200); };
+const banner = msg => { const b = $('#banner'); b.textContent = msg || ''; b.style.display = msg ? 'block' : 'none'; };
+const setBusy = b => { $$('.btn').forEach(x => x.disabled = b); };
+
+/* ---------- JSONP call al ponte ---------- */
+function call(action, data) {
+  return new Promise((resolve, reject) => {
+    const cb = 'rabel_' + Date.now() + '_' + Math.floor(Math.random()*1e6);
+    const q = new URLSearchParams({ action, callback: cb });
+    if (state.token) q.set('token', state.token);
+    if (data !== undefined) q.set('data', JSON.stringify(data));
+    const s = document.createElement('script');
+    const done = ok => { delete window[cb]; s.remove(); ok ? resolve : null; };
+    window[cb] = resp => { delete window[cb]; s.remove(); (resp && resp.ok === false) ? reject(new Error(resp.error || 'Errore dal ponte')) : resolve(resp); };
+    s.onerror = () => { delete window[cb]; s.remove(); reject(new Error('Non riesco a raggiungere il ponte. Controlla l’indirizzo Web App e la connessione.')); };
+    s.src = state.url + (state.url.includes('?') ? '&' : '?') + q.toString();
+    document.head.appendChild(s);
+    setTimeout(() => { if (window[cb]) { delete window[cb]; s.remove(); reject(new Error('Tempo scaduto. Riprova.')); } }, 20000);
+  });
+}
+
+/* ---------- login / logout ---------- */
+const LS = { url:'rabel_admin_url', token:'rabel_admin_token' };
+function showApp() {
+  $('#view-login').hidden = true;
+  $('#view-app').hidden = false;
+  $('#connDot').textContent = '● connesso';
+  $('#connDot').classList.remove('off');
+}
+function showLogin(msg) {
+  $('#view-app').hidden = true;
+  $('#view-login').hidden = false;
+  $('#connDot').textContent = '● non connesso';
+  $('#connDot').classList.add('off');
+  if (msg) $('#login-status').textContent = msg;
+}
+async function login() {
+  state.url   = $('#f-url').value.trim();
+  state.token = $('#f-token').value.trim();
+  banner('');
+  if (!state.url || !state.token) { $('#login-status').textContent = 'Inserisci indirizzo e password.'; return; }
+  const okUrl = /^https:\/\/script\.google\.com\//.test(state.url) || /^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\//.test(state.url);
+  if (!/^https?:\/\//.test(state.url)) { $('#login-status').textContent = 'Inserisci un indirizzo completo (https://…)'; return; }
+  if (!okUrl) { $('#login-status').textContent = 'L’indirizzo deve essere una Web App di Google Apps Script (script.google.com/…/exec)'; return; }
+  $('#login-status').textContent = 'Connessione…';
+  try {
+    const resp = await call('ping');
+    if (!resp.ok) throw new Error(resp.error || 'Risposta non valida');
+    localStorage.setItem(LS.url, state.url);
+    localStorage.setItem(LS.token, state.token);
+    $('#login-status').textContent = '';
+    showApp();
+    await loadAll();
+  } catch (e) {
+    showLogin('');
+    $('#login-status').textContent = 'Errore: ' + e.message;
+  }
+}
+function logout() {
+  localStorage.removeItem(LS.url);
+  localStorage.removeItem(LS.token);
+  state.url = state.token = '';
+  banner('');
+  showLogin('Scollegato. Alla prossima!');
+}
+
+/* ---------- carico dati ---------- */
+async function loadAll() {
+  setBusy(true); banner('');
+  try {
+    const [menu, hours, info] = await Promise.all([call('menu'), call('hours'), call('info')]);
+    state.dishes = menu.dishes || [];
+    state.hours  = hours.rows || [];
+    state.info   = info.info || {};
+    state.categories = [...new Set(state.dishes.map(d => d.category))];
+    renderDishControls();
+    renderDishes();
+    renderHours();
+    renderInfo();
+    renderFoto();
+  } catch (e) {
+    banner('Non riesco a leggere i dati dal foglio.\n' + e.message);
+  } finally { setBusy(false); }
+}
+
+/* ---------- Piatti ---------- */
+function chipHTML(list, selected, cls) {
+  return list.map(item => {
+    const id = typeof item === 'string' ? item : item.id;
+    const label = typeof item === 'string' ? item : item.label;
+    const on = selected.includes(id) ? ' on' : '';
+    return `<button type="button" class="chip${on}" data-val="${esc(id)}">${esc(label)}</button>`;
+  }).join('');
+}
+function renderDishControls() {
+  const catSel = $('#dish-cat'), nCatSel = $('#n-cat');
+  const opts = state.categories.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+  catSel.innerHTML = '<option value="">Tutte le categorie</option>' + opts;
+  nCatSel.innerHTML = opts || '<option value="Specialità della casa">Specialità della casa</option>';
+}
+
+function dishCardHTML(d) {
+  const sel = d.allergens || [], badges = d.badges || [];
+  return `<div class="dish" data-row="${d.row}" data-name="${esc(d.name)}" data-category="${esc(d.category)}">
+  <div class="dish-head">
+    <div class="nm">${esc(d.name)}</div>
+    ${d.available ? '' : '<span class="unavail">ESAURITO</span>'}
+    <span class="pr">${esc(fmtPrice(d.price))}</span>
+    <div class="switch" title="Disponibile / Esaurito"><input type="checkbox" class="sw-avail" ${d.available ? 'checked' : ''}><span class="track"></span><span class="thumb"></span></div>
+  </div>
+  <div class="dish-body">
+    <div class="row"><div><label>Nome (IT) *</label><input type="text" class="f-name" value="${esc(d.name)}"></div>
+    <div><label>Nome (EN)</label><input type="text" class="f-nameen" value="${esc(d.nameEn)}"></div></div>
+    <div class="row"><div><label>Prezzo € (vuoto = al banco)</label><input type="text" class="f-price" value="${d.price === null || d.price === '' ? '' : String(d.price).replace('.', ',')}" inputmode="decimal" placeholder="8,50"></div>
+    <div><label>Categoria</label><select class="f-cat">${state.categories.map(c => `<option value="${esc(c)}"${c === d.category ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></div></div>
+    <label>Descrizione (IT)</label><textarea class="f-desc">${esc(d.descIt)}</textarea>
+    <label>Descrizione (EN)</label><textarea class="f-descen">${esc(d.descEn)}</textarea>
+    <label>Allergeni</label><div class="chips f-allergens">${chipHTML(ALLERGENS, sel)}</div>
+    <label>Badge</label><div class="chips f-badges">${chipHTML(BADGES, badges)}</div>
+    <div class="actions">
+      <button class="btn small f-save">💾 Salva</button>
+      <button class="btn small red f-delete">🗑 Elimina</button>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderDishes() {
+  const q = ($('#dish-search').value || '').trim().toLowerCase();
+  const cat = $('#dish-cat').value;
+  const filtered = state.dishes.filter(d => (!cat || d.category === cat) && (!q || (d.name + ' ' + d.nameEn + ' ' + d.descIt + ' ' + d.descEn).toLowerCase().includes(q)));
+  const groups = {};
+  for (const d of filtered) (groups[d.category] = groups[d.category] || []).push(d);
+  let html = '';
+  for (const g of Object.keys(groups)) {
+    html += `<div class="group-title">${esc(g)} <span class="muted">(${groups[g].length})</span></div>`;
+    html += groups[g].map(dishCardHTML).join('');
+  }
+  $('#dish-list').innerHTML = html || '<div class="card"><p class="muted">Nessun piatto trovato.</p></div>';
+}
+
+function readDishForm(card) {
+  return {
+    row: Number(card.dataset.row) || undefined,
+    category: $('.f-cat', card).value,
+    origName: card.dataset.name,
+    name: $('.f-name', card).value.trim(),
+    nameEn: $('.f-nameen', card).value.trim(),
+    price: $('.f-price', card).value.trim() === '' ? '' : parsePrice($('.f-price', card).value),
+    descIt: $('.f-desc', card).value.trim(),
+    descEn: $('.f-descen', card).value.trim(),
+    allergens: $$('.f-allergens .chip.on', card).map(c => c.dataset.val),
+    badges: $$('.f-badges .chip.on', card).map(c => c.dataset.val),
+    available: $('.sw-avail', card).checked
+  };
+}
+
+async function saveDishCard(card) {
+  const d = readDishForm(card);
+  if (!d.name) { banner('Il nome del piatto è obbligatorio.'); return; }
+  setBusy(true); banner('');
+  try {
+    const r = await call('saveDish', d);
+    d.origName = d.name;
+    card.dataset.name = d.name;
+    card.dataset.category = d.category;
+    toast('Salvato ✓ — visibile subito sul menù');
+    await loadAll();
+  } catch (e) { banner(e.message); } finally { setBusy(false); }
+}
+
+async function deleteDishCard(card) {
+  const name = card.dataset.name;
+  if (!confirm('Eliminare «' + name + '» dal menù?\nQuesta azione non si può annullare.')) return;
+  setBusy(true); banner('');
+  try {
+    await call('deleteDish', { row: Number(card.dataset.row) || undefined, category: card.dataset.category, name });
+    toast('Piatto eliminato');
+    await loadAll();
+  } catch (e) { banner(e.message); } finally { setBusy(false); }
+}
+
+async function toggleAvailable(card) {
+  const d = readDishForm(card);
+  d.available = $('.sw-avail', card).checked;
+  setBusy(true); banner('');
+  try { await call('saveDish', d); toast(d.available ? 'Torna disponibile ✓' : 'Segnata come esaurita'); await loadAll(); }
+  catch (e) { banner(e.message); $('.sw-avail', card).checked = !d.available; }
+  finally { setBusy(false); }
+}
+
+function setupNewDishChips() {
+  $('#n-allergens').innerHTML = chipHTML(ALLERGENS, []);
+  $('#n-badges').innerHTML    = chipHTML(BADGES, []);
+}
+async function addNewDish() {
+  const payload = {
+    category: $('#n-cat').value,
+    name: $('#n-name').value.trim(),
+    nameEn: $('#n-nameen').value.trim(),
+    price: $('#n-price').value.trim() === '' ? '' : parsePrice($('#n-price').value),
+    descIt: $('#n-desc').value.trim(),
+    descEn: $('#n-descen').value.trim(),
+    allergens: $$('#n-allergens .chip.on').map(c => c.dataset.val),
+    badges: $$('#n-badges .chip.on').map(c => c.dataset.val),
+    available: $('#n-avail').checked
+  };
+  if (!payload.category || !payload.name) { banner('Categoria e nome sono obbligatori.'); return; }
+  setBusy(true); banner('');
+  try {
+    await call('addDish', payload);
+    toast('Piatto aggiunto ✓');
+    ['#n-name','#n-nameen','#n-price','#n-desc','#n-descen'].forEach(s => $(s).value = '');
+    $('#n-avail').checked = true; setupNewDishChips(); $('#add-dish-card').hidden = true;
+    await loadAll();
+  } catch (e) { banner(e.message); } finally { setBusy(false); }
+}
+
+/* ---------- Foto ---------- */
+let fotoTarget = null;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function renderFoto() {
+  const groups = {};
+  for (const d of state.dishes) (groups[d.category] = groups[d.category] || []).push(d);
+  let html = '';
+  for (const g of Object.keys(groups)) {
+    html += `<div class="group-title">${esc(g)} <span class="muted">(${groups[g].length})</span></div>`;
+    html += groups[g].map(d => `
+      <div class="foto-item" data-row="${d.row}" data-category="${esc(d.category)}" data-name="${esc(d.name)}" data-photo="${esc(d.photo || '')}">
+        <div class="foto-thumb">${d.photo ? `<img src="${esc(d.photo)}" alt="Foto di ${esc(d.name)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.textContent='🍽️'">` : '🍽️'}</div>
+        <div class="foto-meta">
+          <div class="nm">${esc(d.name)}</div>
+          <div class="pr">${esc(fmtPrice(d.price))}</div>
+          <div class="foto-actions">
+            <button class="btn small f-snap">📷 Scatta</button>
+            <button class="btn small ghost f-pick">🖼 Scegli</button>
+            ${d.photo ? '<button class="btn small red f-remove-photo">🗑 Rimuovi</button>' : ''}
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  $('#foto-list').innerHTML = html || '<div class="card"><p class="muted">Nessun piatto da mostrare.</p></div>';
+}
+$('#foto-list').addEventListener('click', e => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  const item = btn.closest('.foto-item'); if (!item) return;
+  const t = { row: Number(item.dataset.row), category: item.dataset.category, name: item.dataset.name, photo: item.dataset.photo || '' };
+  if (btn.classList.contains('f-snap')) pickPhoto(t, true);
+  else if (btn.classList.contains('f-pick')) pickPhoto(t, false);
+  else if (btn.classList.contains('f-remove-photo')) removePhoto(t);
+});
+function pickPhoto(t, fromCamera) {
+  fotoTarget = t;
+  const input = $('#foto-input');
+  if (fromCamera) input.setAttribute('capture', 'environment'); else input.removeAttribute('capture');
+  input.value = '';
+  input.click();
+}
+$('#foto-input').addEventListener('change', async () => {
+  const input = $('#foto-input');
+  const file = input.files && input.files[0];
+  if (!file || !fotoTarget) return;
+  const t = fotoTarget, status = $('#foto-status');
+  setBusy(true);
+  status.textContent = 'Preparo la foto…';
+  try {
+    const attempts = [[640,0.62],[512,0.58],[432,0.52],[360,0.46],[300,0.40]];
+    let base64 = '';
+    for (const [dim, q] of attempts) {
+      status.textContent = 'Preparo la foto (' + dim + 'px)…';
+      const dataUrl = await downscaleToJpeg(file, dim, q);
+      base64 = String(dataUrl).split(',')[1] || '';
+      if (base64.length && base64.length <= 38000) break;
+    }
+    if (!base64) throw new Error('Non riesco a leggere la foto.');
+    if (base64.length > 38000) throw new Error('La foto è troppo grande anche dopo la compressione. Prova con uno scatto fatto dalla fotocamera (meglio) o riduci la risoluzione.');
+    status.textContent = 'Foto pronta: ' + Math.round(base64.length * 0.75 / 1024) + ' KB — carico…';
+    await uploadPhotoChunks(t, base64, status);
+    status.textContent = '';
+    await loadAll();
+    toast('Foto caricata ✓ — visibile nel menù del QR');
+  } catch (e) {
+    status.textContent = '❌ ' + (e && e.message ? e.message : String(e));
+  } finally {
+    setBusy(false);
+  }
+});
+async function uploadPhotoChunks(t, base64, status) {
+  const CHUNK = 4000;
+  const total = Math.ceil(base64.length / CHUNK);
+  status.textContent = 'Preparo il caricamento…';
+  await call('photoStart', { row: t.row, category: t.category, name: t.name, mimeType: 'image/jpeg', total: total });
+  for (let i = 0; i < total; i++) {
+    const chunk = base64.slice(i * CHUNK, (i + 1) * CHUNK);
+    await call('photoChunk', { index: i, chunk: chunk });
+    status.textContent = 'Carico la foto… ' + Math.round(((i + 1) / total) * 100) + '%';
+  }
+  status.textContent = 'Google sta salvando la foto…';
+  const fin = await call('photoCommit', {});
+  if (!fin || fin.ok === false) throw new Error((fin && fin.error) || 'il salvataggio non risulta completato. Riprova.');
+  return fin;
+}
+async function downscaleToJpeg(file, maxDim, quality) {
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, maxDim / Math.max(bmp.width, bmp.height));
+    const w = Math.max(1, Math.round(bmp.width * scale));
+    const h = Math.max(1, Math.round(bmp.height * scale));
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+    return c.toDataURL('image/jpeg', quality);
+  } catch (e) {
+    return await new Promise((resolve, reject) => {
+      const img = new Image();
+      const u = URL.createObjectURL(file);
+      img.onload = () => {
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        const w = Math.max(1, Math.round(img.width * scale));
+        const h = Math.max(1, Math.round(img.height * scale));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        try {
+          c.getContext('2d').drawImage(img, 0, 0, w, h);
+          URL.revokeObjectURL(u);
+          resolve(c.toDataURL('image/jpeg', quality));
+        } catch (err) { reject(err); }
+      };
+      img.onerror = () => { URL.revokeObjectURL(u); reject(new Error('Immagine non leggibile')); };
+      img.src = u;
+    });
+  }
+}
+async function removePhoto(t) {
+  if (!confirm('Rimuovere la foto di «' + t.name + '»?')) return;
+  setBusy(true); banner('');
+  try {
+    await call('removePhoto', { row: t.row, category: t.category, name: t.name });
+    toast('Foto rimossa');
+  } catch (e) {
+    banner(e.message);
+  } finally {
+    setBusy(false);
+  }
+  await loadAll();
+}
+
+/* ---------- Orari ---------- */
+function renderHours() {
+  const box = $('#hours-rows');
+  box.innerHTML = state.hours.map(([a, b]) => `<div class="hour-row"><input type="text" class="h-day" value="${esc(a)}" placeholder="es. Mercoledì – Venerdì"><input type="text" class="h-time" value="${esc(b)}" placeholder="12:00 – 15:30 · 18:30 – 20:30"><button class="btn small ghost h-del" title="Elimina riga">✕</button></div>`).join('');
+}
+function validateHours(rows) {
+  for (let i = 0; i < rows.length; i++) {
+    const [a, t] = rows[i];
+    if (!DAY_RE.test(a)) return 'Riga ' + (i + 1) + ': «' + a + '» non è un giorno o intervallo valido (es. Mercoledì – Venerdì).';
+    if (!CHIUSO_RE.test(t) && !SLOT_RE.test(t)) return 'Riga ' + (i + 1) + ': orario non valido. Usa «Chiuso» oppure es. 12:00 – 15:30 · 18:30 – 20:30.';
+  }
+  return '';
+}
+async function saveHours() {
+  const rows = $$('.hour-row', $('#hours-rows')).map(r => [$('.h-day', r).value.trim(), $('.h-time', r).value.trim()]).filter(([a, b]) => a || b);
+  if (!rows.length) { banner('Almeno una riga è necessaria.'); return; }
+  const err = validateHours(rows);
+  if (err) { banner(err); return; }
+  setBusy(true); banner('');
+  try { await call('saveHours', { rows }); toast('Orari salvati ✓'); await loadAll(); }
+  catch (e) { banner(e.message); } finally { setBusy(false); }
+}
+
+/* ---------- Info & Social ---------- */
+const INFO_FIELDS = [
+  ['i-phone','phone'], ['i-phonehref','phone_href'], ['i-address','address'], ['i-cap','cap'], ['i-city','city'], ['i-district','district'],
+  ['i-maps','maps_url'], ['i-review','review_url'],
+  ['i-justeat','justeat_url'], ['i-glovo','glovo_url'], ['i-deliveroo','deliveroo_url'],
+  ['i-ig','instagram_url'], ['i-ighandle','instagram_handle'], ['i-fb','facebook_url'],
+  ['i-rating','rating'], ['i-reviews','reviews'], ['i-taglineit','tagline_it'], ['i-taglineen','tagline_en'],
+  ['i-priceit','price_note_it'], ['i-priceen','price_note_en'], ['i-regit','reg_note_it'], ['i-regen','reg_note_en'], ['i-delit','delivery_note_it'], ['i-delen','delivery_note_en']
+];
+function renderInfo() { for (const [id, key] of INFO_FIELDS) { const el = $('#' + id); if (el) el.value = state.info[key] || ''; } }
+function collectInfo() { const d = {}; for (const [id, key] of INFO_FIELDS) { const el = $('#' + id); if (el) d[key] = el.value.trim(); } return d; }
+async function saveInfo() {
+  setBusy(true); banner('');
+  try { await call('saveInfo', { data: collectInfo() }); toast('Info salvate ✓'); await loadAll(); }
+  catch (e) { banner(e.message); } finally { setBusy(false); }
+}
+
+/* ---------- backup ---------- */
+function backup() {
+  const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), dishes: state.dishes, hours: state.hours, info: state.info }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'paninoteca-rabel-backup.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Backup scaricato ✓');
+}
+
+/* ---------- eventi ---------- */
+$('#btn-login').addEventListener('click', login);
+$('#f-token').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+$('#btn-logout').addEventListener('click', logout);
+$('#btn-reload').addEventListener('click', loadAll);
+$('#btn-backup').addEventListener('click', backup);
+$('#btn-save-hours').addEventListener('click', saveHours);
+$('#btn-save-info').addEventListener('click', saveInfo);
+$('#btn-add-hour').addEventListener('click', () => { state.hours.push(['', '']); renderHours(); });
+$('#btn-add-toggle').addEventListener('click', () => { $('#add-dish-card').hidden = !$('#add-dish-card').hidden; });
+$('#btn-add-save').addEventListener('click', addNewDish);
+$('#btn-add-cancel').addEventListener('click', () => { $('#add-dish-card').hidden = true; });
+$('#dish-search').addEventListener('input', renderDishes);
+$('#dish-cat').addEventListener('change', renderDishes);
+
+$$('.tab').forEach(t => t.addEventListener('click', () => {
+  $$('.tab').forEach(x => x.classList.toggle('active', x === t));
+  ['piatti','foto','orari','info','aiuto'].forEach(name => { $('#tab-' + name).hidden = (name !== t.dataset.tab); });
+}));
+
+document.addEventListener('click', e => {
+  const chip = e.target.closest('.chip'); if (chip) { chip.classList.toggle('on'); return; }
+  const head = e.target.closest('.dish-head'); if (head && !e.target.closest('.switch')) { head.closest('.dish').classList.toggle('open'); return; }
+  const save = e.target.closest('.f-save'); if (save) { saveDishCard(save.closest('.dish')); return; }
+  const del  = e.target.closest('.f-delete'); if (del) { deleteDishCard(del.closest('.dish')); return; }
+  const hdel = e.target.closest('.h-del'); if (hdel) { hdel.closest('.hour-row').remove(); return; }
+});
+document.addEventListener('change', e => {
+  const sw = e.target.closest('.sw-avail'); if (sw) toggleAvailable(sw.closest('.dish'));
+});
+
+/* ---------- avvio ---------- */
+setupNewDishChips();
+(function init() {
+  const u = localStorage.getItem(LS.url) || '', t = localStorage.getItem(LS.token) || '';
+  $('#f-url').value = u; $('#f-token').value = t;
+  if (u && t) { state.url = u; state.token = t; showApp(); loadAll(); }
+})();
+</script>
+</body>
+</html>
