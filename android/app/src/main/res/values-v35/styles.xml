@@ -1,0 +1,11 @@
+<resources>
+    <!-- Android 15 (API 35) forza l'edge-to-edge: la WebView finirebbe sotto
+         status bar e barra di navigazione. Si resta al layout classico finché
+         non si gestiscono esplicitamente i WindowInsets. -->
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="android:statusBarColor">#191512</item>
+        <item name="android:navigationBarColor">#191512</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

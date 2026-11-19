@@ -2,6 +2,8 @@
 android/local.properties
 android/**/build/
 node_modules/
+.idea/
+android/.gradle/
 
 deliverables/
-app/capability.js
+*.apk.tmp

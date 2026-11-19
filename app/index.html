@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://mpspdmjvjkqsssxgbxkm.supabase.co; connect-src https://mpspdmjvjkqsssxgbxkm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
 
@@ -93,7 +93,14 @@ textarea{min-height:64px; resize:vertical;}
 #banner{display:none; background:#ffd9d4; border:2px solid var(--red); color:#8a1508; padding:10px 12px; border-radius:10px; margin-bottom:12px; font-size:.85rem; font-weight:600; white-space:pre-wrap;}
 .group-title{font-size:.78rem; text-transform:uppercase; letter-spacing:.6px; color:var(--red); font-weight:900; margin:14px 0 6px; border-bottom:2px solid var(--ink); padding-bottom:4px;}
 .help li{margin:6px 0 6px 18px; font-size:.9rem; line-height:1.45;}
-@media (max-width:560px){ .row{flex-direction:column;} header .site{display:none;} }
+button.site{background:transparent; font-family:inherit; cursor:pointer;}
+@supports (padding: max(0px)){
+  header{padding-top:max(10px, env(safe-area-inset-top)); padding-left:max(16px, env(safe-area-inset-left)); padding-right:max(16px, env(safe-area-inset-right));}
+  header .site, button.site{padding-top:6px; padding-bottom:6px;}
+  body{padding-bottom:calc(80px + env(safe-area-inset-bottom));}
+  #toast{bottom:calc(24px + env(safe-area-inset-bottom));}
+}
+@media (max-width:560px){ .row{flex-direction:column;} header .site{display:none;} button.site{display:inline-flex;} }
 </style>
 </head>
 <body>
@@ -102,14 +109,32 @@ textarea{min-height:64px; resize:vertical;}
   <div class="logo">🥖 PANINOTECA <em>RABEL</em> · Gestione</div>
   <div class="spacer"></div>
   <span id="connDot" class="off">● non connesso</span>
-  <a class="site" href="/" target="_blank" rel="noopener">Vedi il menù →</a>
+  <a class="site" id="site-link" href="../">Vedi il menù →</a>
+  <button class="site" id="btn-logout" type="button" hidden>Esci</button>
 </header>
 
 <main>
 <div id="banner"></div>
 
+<!-- ═════════ ACCESSO ═════════ -->
+<div id="view-login" hidden>
+  <div class="brand-hero">
+    <div class="big">PANINOTECA <em>RABEL</em></div>
+    <p>Gestione menù</p>
+  </div>
+  <div class="card">
+    <h2>Accedi</h2>
+    <label for="l-email">Email</label>
+    <input type="email" id="l-email" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false">
+    <label for="l-password">Password</label>
+    <input type="password" id="l-password" autocomplete="current-password">
+    <div class="actions"><button class="btn" id="btn-login">Accedi</button></div>
+    <p class="muted" id="login-status" style="margin-top:10px"></p>
+  </div>
+</div>
+
 <!-- ═════════ APP ═════════ -->
-<div id="view-app">
+<div id="view-app" hidden>
   <div class="tabs">
     <button class="tab active" data-tab="piatti">🍽 Piatti</button>
     <button class="tab" data-tab="foto">📷 Foto</button>
@@ -213,7 +238,6 @@ textarea{min-height:64px; resize:vertical;}
 </main>
 <div id="toast"></div>
 
-<script src="capability.js"></script>
 <script src="domain.js"></script>
 <script src="client.js"></script>
 <script src="ui.js"></script>
