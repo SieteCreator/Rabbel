@@ -29,7 +29,7 @@ test('refresh applies nonempty tables and uses public API key', async () => {
 });
 test('empty or failed tables do not replace the existing snapshot', async () => {
   const called=[]; global.applySheetMenu=()=>called.push('menu'); global.applySheetHours=()=>called.push('hours'); global.applySheetInfo=()=>called.push('info');
-  global.fetch=async url => url.pathname.endsWith('rabel_hours') ? {ok:false,status:503} : {ok:true,json:async()=>[]};
+  global.fetch=async url => (url.pathname.endsWith('rabel_hours') || url.pathname.endsWith('rabel_categories')) ? {ok:false,status:503} : {ok:true,json:async()=>[]};
   const warn=console.warn; console.warn=()=>{};
   try { await refresh(); } finally {console.warn=warn;}
   assert.deepEqual(called,[]);

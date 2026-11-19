@@ -855,7 +855,7 @@ const parsePrice = v => {
 };
 const slugId = s => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'cat';
 window.__rabelAvail = new Set();
-function applySheetMenu(resp){
+function applySheetMenu(resp, liveCategories){
   try {
     const rows = (resp && resp.table && resp.table.rows) || [];
     const catOrder = [], buckets = {};
@@ -879,7 +879,12 @@ function applySheetMenu(resp){
         photo: photoSheet || ''
       });
     }
-    if (!catOrder.length) return false;
+    // Solo il nuovo schema segnala esplicitamente che anche un menu vuoto è valido.
+    if (!catOrder.length && !Array.isArray(liveCategories)) return false;
+    const categoryIndex = new Map((Array.isArray(liveCategories) ? liveCategories : [])
+      .filter(c => c && typeof c.name === 'string' && Number.isSafeInteger(c.id))
+      .map((c, index) => [c.name, { ...c, index }]));
+    catOrder.sort((a, b) => (categoryIndex.get(a)?.index ?? Number.MAX_SAFE_INTEGER) - (categoryIndex.get(b)?.index ?? Number.MAX_SAFE_INTEGER));
     const unav = new Set();
     MENU.categories = catOrder.map(catName => {
       const items = buckets[catName].map(it => {
@@ -890,8 +895,9 @@ function applySheetMenu(resp){
         if (photo && /^https?:\/\//.test(photo)) rest.photo = photo;
         return rest;
       });
-      const meta = CATEGORY_META[catName] || { id: slugId(catName), en: catName, kicker: { it:'', en:'' } };
-      return { id: meta.id, it: catName, en: meta.en, kicker: meta.kicker, items };
+      const live = categoryIndex.get(catName);
+      const meta = CATEGORY_META[catName] || { id: live ? 'custom-' + live.id : slugId(catName), en: catName, kicker: { it:'', en:'' } };
+      return { id: meta.id, it: catName, en: (live && live.name_en) || meta.en, kicker: meta.kicker, items };
     });
     window.__rabelAvail = unav;
     if (activeCat !== 'all' && !MENU.categories.some(c => c.id === activeCat)) activeCat = 'all';

@@ -22,3 +22,16 @@ test('live photo replacement and removal never resurrect the snapshot image', ()
   assert.equal(ctx.applySheetMenu(asCells([])), false);
   assert.equal(ctx.MENU.categories[0].items[0].photo, undefined);
 });
+
+test('live categories determine English name and display order, including an empty menu', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  const ctx = {window: {}, MENU: {categories: []}, CATEGORY_META: {}, activeCat:'all', renderPills(){}, renderSections(){}};
+  vm.createContext(ctx);
+  vm.runInContext(html.slice(html.indexOf('const BADGE_FROM_TEXT ='), html.indexOf('/* ===== Sincronizzazione live ORARI')), ctx);
+  const dishes = [{category:'Prima',name:'A',available:true},{category:'Seconda',name:'B',available:true}];
+  const categories = [{id:2,name:'Seconda',name_en:'Second'}, {id:1,name:'Prima',name_en:'First'}];
+  assert.equal(ctx.applySheetMenu(menuRows(dishes), categories), true);
+  assert.deepEqual(Array.from(ctx.MENU.categories, c => [c.it,c.en,c.id]), [['Seconda','Second','custom-2'],['Prima','First','custom-1']]);
+  assert.equal(ctx.applySheetMenu(asCells([]), categories), true);
+  assert.equal(ctx.MENU.categories.length, 0);
+});

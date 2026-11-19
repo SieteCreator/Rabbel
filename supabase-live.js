@@ -28,11 +28,13 @@
     const results = await Promise.allSettled([
       readTable('rabel_dishes', 'position.asc,id.asc'),
       readTable('rabel_hours', 'position.asc,id.asc'),
-      readTable('rabel_info')
+      readTable('rabel_info'),
+      readTable('rabel_categories', 'position.asc,id.asc')
     ]);
-    const [menu, hours, info] = results;
+    const [menu, hours, info, categories] = results;
     // Tabelle ancora vuote: manteniamo lo snapshot, non mostriamo un menu vuoto.
-    if (menu.status === 'fulfilled' && menu.value.length) applySheetMenu(menuRows(menu.value));
+    if (menu.status === 'fulfilled' && (menu.value.length || categories.status === 'fulfilled'))
+      applySheetMenu(menuRows(menu.value), categories.status === 'fulfilled' ? categories.value : null);
     if (hours.status === 'fulfilled' && hours.value.length) applySheetHours(asCells(hours.value.map(h => [h.days, h.hours])));
     if (info.status === 'fulfilled' && info.value.length) applySheetInfo(asCells(info.value.map(i => [i.key, i.value])));
     results.forEach(r => { if (r.status === 'rejected') console.warn('Aggiornamento menù non riuscito:', r.reason); });
