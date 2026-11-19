@@ -4,8 +4,7 @@ on:
     paths: ['android/**', 'app/**', '.github/workflows/android-build.yml']
   workflow_dispatch:
 permissions:
-  contents: write
-  statuses: write
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,16 +19,3 @@ jobs:
           gradle-version: '8.10.2'
       - name: Build debug APK
         run: gradle -p android assembleDebug
-      # The public repository only receives an encrypted archive. The private
-      # transfer key stays outside the repository and outside GitHub Actions.
-      - name: Encrypt private test build
-        run: openssl cms -encrypt -binary -aes-256-cbc -in android/app/build/outputs/apk/debug/app-debug.apk -outform DER -out rabel-test.apk.cms android/transfer/public-cert.pem
-      # Create an unreferenced encrypted Git blob, not a commit or release.
-      # Its hash allows transfer via the GitHub API when artifact hosts are blocked.
-      - name: Transfer encrypted test build
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python3 -c 'import base64,json; print(json.dumps({"content":base64.b64encode(open("rabel-test.apk.cms","rb").read()).decode(),"encoding":"base64"}))' > /tmp/blob.json
-          SHA=$(gh api --method POST repos/${{ github.repository }}/git/blobs --input /tmp/blob.json --jq .sha)
-          gh api --method POST repos/${{ github.repository }}/statuses/${{ github.sha }} -f state=success -f context=rabel-private-transfer -f description="$SHA" >/dev/null
