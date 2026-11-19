@@ -1,0 +1,851 @@
+{
+  "dishes": [
+    {
+      "position": 0,
+      "category": "Specialità della casa",
+      "name": "Club Sandwich",
+      "name_en": "Club Sandwich",
+      "description": "Il nostro Club Sandwich: tre strati impilati, pane tostato alla piastra e la ricetta della casa. Consigliatissimo.",
+      "description_en": "The house Club Sandwich: triple-stacked, griddled bread and our own recipe. Highly recommended.",
+      "price": 9.0,
+      "allergens": [
+        "GL",
+        "UO",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 1,
+      "category": "Specialità della casa",
+      "name": "Aperitivo Completo: Club Sandwich + Spritz o Sangria",
+      "name_en": "Complete Aperitivo: Club Sandwich + Spritz or Sangria",
+      "description": "Club Sandwich + Spritz oppure Sangria della casa, per un aperitivo completo. Da gustare in orario serale.",
+      "description_en": "Club Sandwich plus a Spritz or our house Sangria — the complete aperitivo. Best enjoyed in the evening hours.",
+      "price": 12.5,
+      "allergens": [
+        "GL",
+        "UO",
+        "SE",
+        "SO2"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 2,
+      "category": "Burgers",
+      "name": "Hamburger",
+      "name_en": "Hamburger",
+      "description": "Hamburger di fassona 110 g, bacon croccante, fontina, pomodoro e salsa a scelta.",
+      "description_en": "110 g Fassona beef burger, crispy bacon, fontina, tomato and your choice of sauce.",
+      "price": 7.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "pop"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 3,
+      "category": "Burgers",
+      "name": "Hamburger di Salamella",
+      "name_en": "Salamella Burger",
+      "description": "Hamburger di salamella 120 g, bacon, fontina, pomodoro, insalata e salsa a scelta.",
+      "description_en": "120 g salamella burger, bacon, fontina, tomato, lettuce and your choice of sauce.",
+      "price": 7.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 4,
+      "category": "Burgers",
+      "name": "Formaggioso",
+      "name_en": "Formaggioso",
+      "description": "Hamburger di fassona, gorgonzola, taleggio, fontina e pomodoro. Per gli amanti del formaggio.",
+      "description_en": "Fassona burger with gorgonzola, taleggio, fontina and tomato. A cheese-lover's dream.",
+      "price": 8.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 5,
+      "category": "Burgers",
+      "name": "BeefBurger",
+      "name_en": "BeefBurger",
+      "description": "150 g di hamburger di fassona, roast beef, fontina, pomodoro e rucola. La fortezza della casa.",
+      "description_en": "150 g Fassona burger, roast beef, fontina, tomato and rocket. The house fortress.",
+      "price": null,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "banco"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 6,
+      "category": "Burgers",
+      "name": "Pollastro Burger",
+      "name_en": "Pollastro Burger",
+      "description": "Cotoletta di pollo, pomodoro, insalata, bacon e fontina.",
+      "description_en": "Chicken cutlet, tomato, lettuce, bacon and fontina.",
+      "price": 9.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "UO",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 7,
+      "category": "Burgers",
+      "name": "Burger Doppio Mix",
+      "name_en": "Double Mix Burger",
+      "description": "1 hamburger di fassona 110 g + 1 hamburger di salamella 120 g, pomodori, pecorino e salsa blue cheese.",
+      "description_en": "One 110 g Fassona burger + one 120 g salamella burger, tomatoes, pecorino and blue cheese sauce.",
+      "price": 9.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 8,
+      "category": "Burgers",
+      "name": "Burger Sporca Dita",
+      "name_en": "Burger Sporca Dita — “Dirty Fingers”",
+      "description": "2 hamburger di fassona 110 g, cavolo cappuccio viola, zucchine grigliate, bacon, pecorino, robiola e salsa a scelta.",
+      "description_en": "Two 110 g Fassona burgers, red cabbage slaw, grilled zucchini, bacon, pecorino, robiola and your choice of sauce.",
+      "price": 9.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "pop"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 9,
+      "category": "Burgers",
+      "name": "Doppio Hamburger",
+      "name_en": "Double Hamburger",
+      "description": "2 hamburger di fassona 110 g, bacon, fontina, pomodoro, insalata e salsa a scelta.",
+      "description_en": "Two 110 g Fassona burgers, bacon, fontina, tomato, lettuce and your choice of sauce.",
+      "price": 9.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 10,
+      "category": "Burgers",
+      "name": "Triplo Hamburger Fassona Piemontese",
+      "name_en": "Triple Piedmontese Fassona Burger",
+      "description": "Il più goloso della casa: triplo hamburger di fassona piemontese, per chi non conosce mezze misure.",
+      "description_en": "The most indulgent on the menu: triple Piedmontese Fassona burger, for those who know no half measures.",
+      "price": 10.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "pop"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 11,
+      "category": "Panini",
+      "name": "Panino Cotoletta di Pollo",
+      "name_en": "Chicken Cutlet Panino",
+      "description": "Cotoletta di pollo impanata, pomodoro, insalata e salse a scelta.",
+      "description_en": "Breaded chicken cutlet, tomato, lettuce and your choice of sauces.",
+      "price": 5.5,
+      "allergens": [
+        "GL",
+        "UO",
+        "SE"
+      ],
+      "badges": [
+        "pop"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 12,
+      "category": "Panini",
+      "name": "Panino con Speck, Brie e Rucola",
+      "name_en": "Speck, Brie & Rocket Panino",
+      "description": "Speck, brie, rucola e salsa Worcester.",
+      "description_en": "Speck, brie, rocket and Worcester sauce.",
+      "price": 4.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE",
+        "PE",
+        "SO"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 13,
+      "category": "Panini",
+      "name": "Panino Prosciutto Cotto, Peperoni Grigliati e Gorgonzola",
+      "name_en": "Cooked Ham, Grilled Peppers & Gorgonzola Panino",
+      "description": "Prosciutto cotto, peperoni grigliati e gorgonzola.",
+      "description_en": "Cooked ham, grilled peppers and gorgonzola.",
+      "price": 6.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 14,
+      "category": "Panini",
+      "name": "Panino Contadino",
+      "name_en": "Contadino Panino",
+      "description": "Salame, cipolla caramellata e taleggio.",
+      "description_en": "Salami, caramelised onions and taleggio.",
+      "price": 6.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 15,
+      "category": "Panini",
+      "name": "Panino con Paté di Olive",
+      "name_en": "Olive Pâté Panino",
+      "description": "Carciofini, prosciutto cotto, funghi champignon e mozzarella di bufala.",
+      "description_en": "Artichokes, cooked ham, button mushrooms and buffalo mozzarella.",
+      "price": 6.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 16,
+      "category": "Panini",
+      "name": "Panino alla Soppressata Piccante",
+      "name_en": "Spicy Soppressata Panino",
+      "description": "Soppressata piccante, cipolle rosse caramellate e caciocavallo.",
+      "description_en": "Spicy soppressata, caramelised red onions and caciocavallo.",
+      "price": 6.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "spicy"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 17,
+      "category": "Panini",
+      "name": "Panino Bufalata",
+      "name_en": "Bufalata Panino",
+      "description": "Prosciutto cotto, melanzane fritte, mozzarella di bufala e pecorino.",
+      "description_en": "Cooked ham, fried aubergines, buffalo mozzarella and pecorino.",
+      "price": 7.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 18,
+      "category": "Panini",
+      "name": "Panino Fiocco",
+      "name_en": "Fiocco Panino",
+      "description": "Fiocco, squacquerone, rucola, grana, olio, sale e pepe.",
+      "description_en": "Fiocco ham, squacquerone, rocket, grana, olive oil, salt and pepper.",
+      "price": 7.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 19,
+      "category": "Panini",
+      "name": "Panino Stadio",
+      "name_en": "Stadio Panino",
+      "description": "Salamella, cipolla caramellata, peperoni al forno e ketchup.",
+      "description_en": "Salamella, caramelised onions, oven-roasted peppers and ketchup.",
+      "price": 7.5,
+      "allergens": [
+        "GL",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 20,
+      "category": "Panini",
+      "name": "Panino Ascolta Me",
+      "name_en": "Ascolta Me Panino",
+      "description": "Cotoletta di pollo fritta, peperoni, fontina e salse.",
+      "description_en": "Fried chicken cutlet, peppers, fontina and sauces.",
+      "price": 7.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "UO",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 21,
+      "category": "Panini",
+      "name": "Panino 'Nduja",
+      "name_en": "Nduja Panino",
+      "description": "Melanzane grigliate, caciocavallo e pomodori secchi sott'olio.",
+      "description_en": "Grilled aubergines, caciocavallo and sun-dried tomatoes in oil.",
+      "price": 7.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "spicy"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 22,
+      "category": "Panini",
+      "name": "Panino Salamella, Funghi Porcini e Taleggio",
+      "name_en": "Salamella, Porcini & Taleggio Panino",
+      "description": "Salamella, funghi porcini e taleggio.",
+      "description_en": "Salamella, porcini mushrooms and taleggio.",
+      "price": 7.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 23,
+      "category": "Panini",
+      "name": "Panino con Bresaola",
+      "name_en": "Bresaola Panino",
+      "description": "Crescenza, scaglie di castelmagno, rucola, olio, sale e pepe.",
+      "description_en": "Crescenza, castelmagno shavings, rocket, olive oil, salt and pepper.",
+      "price": 8.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 24,
+      "category": "Panini",
+      "name": "Panino al Salmone Affumicato",
+      "name_en": "Smoked Salmon Panino",
+      "description": "Salmone affumicato, zucchine grigliate, formaggio spalmabile, olio, sale e pepe.",
+      "description_en": "Smoked salmon, grilled zucchini, cream cheese, olive oil, salt and pepper.",
+      "price": 8.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE",
+        "PE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 25,
+      "category": "Panini",
+      "name": "Panino Tartare di Fassona",
+      "name_en": "Fassona Tartare Panino",
+      "description": "120 g di tartare di fassona, porcini, grana, olio, sale, pepe e limone.",
+      "description_en": "120 g Fassona tartare, porcini, grana, olive oil, salt, pepper and lemon.",
+      "price": 10.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "raw"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 26,
+      "category": "Panini",
+      "name": "Panino Bra",
+      "name_en": "Bra Panino",
+      "description": "Salsiccia di Bra cruda, fontina e cipolle caramellate.",
+      "description_en": "Raw Bra sausage, fontina and caramelised onions.",
+      "price": 10.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "raw"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 27,
+      "category": "Panini",
+      "name": "Panino Tartare alla Burrata",
+      "name_en": "Burrata Tartare Panino",
+      "description": "Tartare di fassona, peperoni e burrata. Specialità del banco.",
+      "description_en": "Fassona tartare, peppers and burrata. Counter speciality.",
+      "price": null,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "banco",
+        "raw"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 28,
+      "category": "Panini",
+      "name": "Panino Milza",
+      "name_en": "Milza (Spleen) Panino",
+      "description": "Milza, caciocavallo e limone. La specialità della casa per i palati coraggiosi.",
+      "description_en": "Spleen, caciocavallo and lemon. The house speciality for brave palates.",
+      "price": null,
+      "allergens": [
+        "GL",
+        "LA",
+        "SE"
+      ],
+      "badges": [
+        "banco"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 29,
+      "category": "Panini Speciali",
+      "name": "Panino Lampredotto",
+      "name_en": "Lampredotto Panino",
+      "description": "Lampredotto (abomaso) e salsa verde. Lo street food toscano, a Torino.",
+      "description_en": "Lampredotto (beef abomasum) with salsa verde. Tuscan street food, in Turin.",
+      "price": 5.0,
+      "allergens": [
+        "GL",
+        "SE"
+      ],
+      "badges": [
+        "pop"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 30,
+      "category": "Panini Speciali",
+      "name": "Panino Polpette",
+      "name_en": "Meatballs Panino",
+      "description": "Polpette al caciocavallo grigliate, robiola, paté d'olive, pomodoro e insalata.",
+      "description_en": "Grilled caciocavallo meatballs, robiola, olive pâté, tomato and lettuce.",
+      "price": 8.0,
+      "allergens": [
+        "GL",
+        "LA",
+        "UO",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 31,
+      "category": "Panini Speciali",
+      "name": "Panino Sfilacciato di Maiale",
+      "name_en": "Pulled Pork Panino",
+      "description": "Spalla di maiale sfilacciata, cavolo cappuccio e salsa BBQ.",
+      "description_en": "Slow-cooked pulled pork shoulder, cabbage slaw and BBQ sauce.",
+      "price": 8.0,
+      "allergens": [
+        "GL",
+        "SE"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 32,
+      "category": "Fritti",
+      "name": "Nuggets di Pollo",
+      "name_en": "Chicken Nuggets",
+      "description": "Bocconcini di pollo impanati e fritti: croccanti fuori, morbidi dentro.",
+      "description_en": "Breaded chicken nuggets — crispy outside, tender inside.",
+      "price": 4.0,
+      "allergens": [
+        "GL",
+        "UO"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 33,
+      "category": "Fritti",
+      "name": "Anelli di Cipolla",
+      "name_en": "Onion Rings",
+      "description": "Anelli di cipolla impanati e fritti. Il contorno che non stanca mai.",
+      "description_en": "Battered onion rings. The side dish that never gets old.",
+      "price": 4.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "UO"
+      ],
+      "badges": [
+        "veg"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 34,
+      "category": "Dolci",
+      "name": "Piadina alla Nutella",
+      "name_en": "Nutella Piadina",
+      "description": "Piadina calda alla piastra con Nutella. Il finale perfetto.",
+      "description_en": "Warm piadina with Nutella. The perfect ending.",
+      "price": 4.5,
+      "allergens": [
+        "GL",
+        "LA",
+        "FG"
+      ],
+      "badges": [
+        "veg"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 35,
+      "category": "Bevande & Birre",
+      "name": "Panino + Coca-Cola 450 ml",
+      "name_en": "Panino + 450 ml Coca-Cola",
+      "description": "L'abbinamento ufficiale: qualsiasi panino con una Coca-Cola da 450 ml.",
+      "description_en": "The official pairing: any panino with a 450 ml Coca-Cola.",
+      "price": null,
+      "allergens": [],
+      "badges": [
+        "banco"
+      ],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 36,
+      "category": "Bevande & Birre",
+      "name": "Coca-Cola & bibite — 450 ml",
+      "name_en": "Coca-Cola & soft drinks — 450 ml",
+      "description": "Coca-Cola e le altre bibite in bottiglia da 450 ml, servite fresche.",
+      "description_en": "Coca-Cola and other soft drinks in 450 ml bottles, served cold.",
+      "price": null,
+      "allergens": [],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 37,
+      "category": "Bevande & Birre",
+      "name": "Spritz",
+      "name_en": "Spritz",
+      "description": "Il re dell'aperitivo. Da gustare in orario serale, al banco o al tavolino.",
+      "description_en": "The king of the aperitivo. Enjoy in the evening hours, at the counter or a table.",
+      "price": null,
+      "allergens": [
+        "SO2"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 38,
+      "category": "Bevande & Birre",
+      "name": "Sangria della Casa",
+      "name_en": "House Sangria",
+      "description": "La nostra sangria, fresca e fruttata. Ottima con il club sandwich.",
+      "description_en": "Our sangria — fresh and fruity. Pairs perfectly with the Club Sandwich.",
+      "price": null,
+      "allergens": [
+        "SO2"
+      ],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 39,
+      "category": "Bevande & Birre",
+      "name": "Birre in bottiglia",
+      "name_en": "Bottled beers",
+      "description": "La selezione di birre in bottiglia, servite fresche.",
+      "description_en": "Our selection of bottled beers, served chilled.",
+      "price": null,
+      "allergens": [],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    },
+    {
+      "position": 40,
+      "category": "Bevande & Birre",
+      "name": "Acqua naturale e gassata",
+      "name_en": "Still & sparkling water",
+      "description": "Acqua naturale e gassata, servita fresca.",
+      "description_en": "Still and sparkling water, served chilled.",
+      "price": null,
+      "allergens": [],
+      "badges": [],
+      "available": true,
+      "photo_path": null
+    }
+  ],
+  "hours": [
+    {
+      "position": 0,
+      "days": "Lunedì",
+      "hours": "Chiuso"
+    },
+    {
+      "position": 1,
+      "days": "Martedì",
+      "hours": "Chiuso"
+    },
+    {
+      "position": 2,
+      "days": "Mercoledì – Venerdì",
+      "hours": "12:00 – 15:30 · 18:30 – 20:30"
+    },
+    {
+      "position": 3,
+      "days": "Sabato – Domenica",
+      "hours": "12:00 – 20:30"
+    }
+  ],
+  "info": [
+    {
+      "key": "phone",
+      "value": "011 060 6294"
+    },
+    {
+      "key": "phone_href",
+      "value": "+390110606294"
+    },
+    {
+      "key": "address",
+      "value": "Via San Tommaso 4B"
+    },
+    {
+      "key": "cap",
+      "value": "10122"
+    },
+    {
+      "key": "city",
+      "value": "Torino"
+    },
+    {
+      "key": "district",
+      "value": "Quadrilatero Romano"
+    },
+    {
+      "key": "maps_url",
+      "value": "https://www.google.com/maps/search/?api=1&query=Paninoteca+Rabel+Via+San+Tommaso+4B+Torino&query_place_id=ChIJa3VtIBZtiEcR0LKpWnCbTIw"
+    },
+    {
+      "key": "review_url",
+      "value": "https://search.google.com/local/writereview?placeid=ChIJa3VtIBZtiEcR0LKpWnCbTIw"
+    },
+    {
+      "key": "justeat_url",
+      "value": "https://www.justeat.it/restaurants-paninoteca-rabel-torino/menu"
+    },
+    {
+      "key": "glovo_url",
+      "value": "https://glovoapp.com/it/it/torino/stores/paninoteca-rabel-tor"
+    },
+    {
+      "key": "deliveroo_url",
+      "value": "https://deliveroo.it/it/menu/torino/torino-centro/paninoteca-rabel"
+    },
+    {
+      "key": "instagram_url",
+      "value": "https://www.instagram.com/paninoteca.rabel/"
+    },
+    {
+      "key": "instagram_handle",
+      "value": "@paninoteca.rabel"
+    },
+    {
+      "key": "facebook_url",
+      "value": "https://www.facebook.com/p/Paninoteca-Rabel-100077207096392/"
+    },
+    {
+      "key": "rating",
+      "value": "4.8"
+    },
+    {
+      "key": "reviews",
+      "value": "230"
+    },
+    {
+      "key": "tagline_it",
+      "value": "Panini, burger e street food nel cuore di Torino"
+    },
+    {
+      "key": "tagline_en",
+      "value": "Panini, burgers and street food in the heart of Turin"
+    },
+    {
+      "key": "price_note_it",
+      "value": "Prezzi in euro, allineati ai canali online (Just Eat / Glovo), IVA inclusa ove applicabile. Il listino del banco può differire leggermente. Gli allergeni indicati sono stimati: in caso di allergie o intolleranze avvisa sempre il personale."
+    },
+    {
+      "key": "price_note_en",
+      "value": "Prices in euros, aligned with our online channels (Just Eat / Glovo), VAT included where applicable. Counter prices may differ slightly. Listed allergens are estimates: always tell our team about allergies or intolerances."
+    },
+    {
+      "key": "reg_note_it",
+      "value": "Informazioni allergeni ai sensi del Reg. UE n. 1169/2011. Ingredienti e ricette possono variare: per allergie gravi, chiedi sempre conferma al personale. Fritti preparati in olio condiviso."
+    },
+    {
+      "key": "reg_note_en",
+      "value": "Allergen information pursuant to EU Regulation 1169/2011. Ingredients and recipes may vary: for severe allergies, always confirm with our staff. Fried items share the same frying oil."
+    },
+    {
+      "key": "delivery_note_it",
+      "value": "La Paninoteca Rabel è su <strong>Just Eat</strong>, <strong>Glovo</strong> e <strong>Deliveroo</strong>. La consegna copre il centro di Torino: il prezzo online include le commissioni di servizio delle piattaforme."
+    },
+    {
+      "key": "delivery_note_en",
+      "value": "Paninoteca Rabel is on <strong>Just Eat</strong>, <strong>Glovo</strong> and <strong>Deliveroo</strong>. Delivery covers central Turin — online prices include platform service fees."
+    },
+    {
+      "key": "source_menu",
+      "value": "[[\"PANINOTECA RABEL — MENÙ DIGITALE\",null,null,null,null,null,null,null,null,null],[\"Via San Tommaso 4B, 10122 Torino · Tel. 011 060 6294 · Prezzi in euro allineati a Just Eat/Glovo (online, IVA inclusa ove applicabile); il listino del banco può differire leggermente. Allergeni stimati ai sensi del Reg. UE 1169/2011.\",null,null,null,null,null,null,null,null,null],[\"Categoria\",\"Piatto (IT)\",\"Dish (EN)\",\"Descrizione (IT)\",\"Description (EN)\",\"Prezzo €\",\"Allergeni\",\"Note\",\"Disponibilità\",\"Foto\"],[\"Specialità della casa\",\"Club Sandwich\",\"Club Sandwich\",\"Il nostro Club Sandwich: tre strati impilati, pane tostato alla piastra e la ricetta della casa. Consigliatissimo.\",\"The house Club Sandwich: triple-stacked, griddled bread and our own recipe. Highly recommended.\",9.0,\"GL, UO, SE\",null,\"Sì\",null],[\"Specialità della casa\",\"Aperitivo Completo: Club Sandwich + Spritz o Sangria\",\"Complete Aperitivo: Club Sandwich + Spritz or Sangria\",\"Club Sandwich + Spritz oppure Sangria della casa, per un aperitivo completo. Da gustare in orario serale.\",\"Club Sandwich plus a Spritz or our house Sangria — the complete aperitivo. Best enjoyed in the evening hours.\",12.5,\"GL, UO, SE, SO2\",null,\"Sì\",null],[\"Burgers\",\"Hamburger\",\"Hamburger\",\"Hamburger di fassona 110 g, bacon croccante, fontina, pomodoro e salsa a scelta.\",\"110 g Fassona beef burger, crispy bacon, fontina, tomato and your choice of sauce.\",7.5,\"GL, LA, SE\",\"★ Il più ordinato\",\"Sì\",null],[\"Burgers\",\"Hamburger di Salamella\",\"Salamella Burger\",\"Hamburger di salamella 120 g, bacon, fontina, pomodoro, insalata e salsa a scelta.\",\"120 g salamella burger, bacon, fontina, tomato, lettuce and your choice of sauce.\",7.5,\"GL, LA, SE\",null,\"Sì\",null],[\"Burgers\",\"Formaggioso\",\"Formaggioso\",\"Hamburger di fassona, gorgonzola, taleggio, fontina e pomodoro. Per gli amanti del formaggio.\",\"Fassona burger with gorgonzola, taleggio, fontina and tomato. A cheese-lover's dream.\",8.5,\"GL, LA, SE\",null,\"Sì\",null],[\"Burgers\",\"BeefBurger\",\"BeefBurger\",\"150 g di hamburger di fassona, roast beef, fontina, pomodoro e rucola. La fortezza della casa.\",\"150 g Fassona burger, roast beef, fontina, tomato and rocket. The house fortress.\",null,\"GL, LA, SE\",\"Solo al banco\",\"Sì\",\"\"],[\"Burgers\",\"Pollastro Burger\",\"Pollastro Burger\",\"Cotoletta di pollo, pomodoro, insalata, bacon e fontina.\",\"Chicken cutlet, tomato, lettuce, bacon and fontina.\",9.0,\"GL, LA, UO, SE\",null,\"Sì\",\"\"],[\"Burgers\",\"Burger Doppio Mix\",\"Double Mix Burger\",\"1 hamburger di fassona 110 g + 1 hamburger di salamella 120 g, pomodori, pecorino e salsa blue cheese.\",\"One 110 g Fassona burger + one 120 g salamella burger, tomatoes, pecorino and blue cheese sauce.\",9.0,\"GL, LA, SE\",null,\"Sì\",\"\"],[\"Burgers\",\"Burger Sporca Dita\",\"Burger Sporca Dita — “Dirty Fingers”\",\"2 hamburger di fassona 110 g, cavolo cappuccio viola, zucchine grigliate, bacon, pecorino, robiola e salsa a scelta.\",\"Two 110 g Fassona burgers, red cabbage slaw, grilled zucchini, bacon, pecorino, robiola and your choice of sauce.\",9.0,\"GL, LA, SE\",\"★ Il più ordinato\",\"Sì\",\"\"],[\"Burgers\",\"Doppio Hamburger\",\"Double Hamburger\",\"2 hamburger di fassona 110 g, bacon, fontina, pomodoro, insalata e salsa a scelta.\",\"Two 110 g Fassona burgers, bacon, fontina, tomato, lettuce and your choice of sauce.\",9.0,\"GL, LA, SE\",null,\"Sì\",\"\"],[\"Burgers\",\"Triplo Hamburger Fassona Piemontese\",\"Triple Piedmontese Fassona Burger\",\"Il più goloso della casa: triplo hamburger di fassona piemontese, per chi non conosce mezze misure.\",\"The most indulgent on the menu: triple Piedmontese Fassona burger, for those who know no half measures.\",10.0,\"GL, LA, SE\",\"★ Il più ordinato\",\"Sì\",\"\"],[\"Panini\",\"Panino Cotoletta di Pollo\",\"Chicken Cutlet Panino\",\"Cotoletta di pollo impanata, pomodoro, insalata e salse a scelta.\",\"Breaded chicken cutlet, tomato, lettuce and your choice of sauces.\",5.5,\"GL, UO, SE\",\"★ Il più ordinato\",\"Sì\",null],[\"Panini\",\"Panino con Speck, Brie e Rucola\",\"Speck, Brie & Rocket Panino\",\"Speck, brie, rucola e salsa Worcester.\",\"Speck, brie, rocket and Worcester sauce.\",4.0,\"GL, LA, SE, PE, SO\",null,\"Sì\",null],[\"Panini\",\"Panino Prosciutto Cotto, Peperoni Grigliati e Gorgonzola\",\"Cooked Ham, Grilled Peppers & Gorgonzola Panino\",\"Prosciutto cotto, peperoni grigliati e gorgonzola.\",\"Cooked ham, grilled peppers and gorgonzola.\",6.5,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino Contadino\",\"Contadino Panino\",\"Salame, cipolla caramellata e taleggio.\",\"Salami, caramelised onions and taleggio.\",6.5,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino con Paté di Olive\",\"Olive Pâté Panino\",\"Carciofini, prosciutto cotto, funghi champignon e mozzarella di bufala.\",\"Artichokes, cooked ham, button mushrooms and buffalo mozzarella.\",6.5,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino alla Soppressata Piccante\",\"Spicy Soppressata Panino\",\"Soppressata piccante, cipolle rosse caramellate e caciocavallo.\",\"Spicy soppressata, caramelised red onions and caciocavallo.\",6.5,\"GL, LA, SE\",\"Piccante\",\"Sì\",null],[\"Panini\",\"Panino Bufalata\",\"Bufalata Panino\",\"Prosciutto cotto, melanzane fritte, mozzarella di bufala e pecorino.\",\"Cooked ham, fried aubergines, buffalo mozzarella and pecorino.\",7.0,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino Fiocco\",\"Fiocco Panino\",\"Fiocco, squacquerone, rucola, grana, olio, sale e pepe.\",\"Fiocco ham, squacquerone, rocket, grana, olive oil, salt and pepper.\",7.0,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino Stadio\",\"Stadio Panino\",\"Salamella, cipolla caramellata, peperoni al forno e ketchup.\",\"Salamella, caramelised onions, oven-roasted peppers and ketchup.\",7.5,\"GL, SE\",null,\"Sì\",null],[\"Panini\",\"Panino Ascolta Me\",\"Ascolta Me Panino\",\"Cotoletta di pollo fritta, peperoni, fontina e salse.\",\"Fried chicken cutlet, peppers, fontina and sauces.\",7.5,\"GL, LA, UO, SE\",null,\"Sì\",null],[\"Panini\",\"Panino 'Nduja\",\"Nduja Panino\",\"Melanzane grigliate, caciocavallo e pomodori secchi sott'olio.\",\"Grilled aubergines, caciocavallo and sun-dried tomatoes in oil.\",7.5,\"GL, LA, SE\",\"Piccante\",\"Sì\",null],[\"Panini\",\"Panino Salamella, Funghi Porcini e Taleggio\",\"Salamella, Porcini & Taleggio Panino\",\"Salamella, funghi porcini e taleggio.\",\"Salamella, porcini mushrooms and taleggio.\",7.5,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino con Bresaola\",\"Bresaola Panino\",\"Crescenza, scaglie di castelmagno, rucola, olio, sale e pepe.\",\"Crescenza, castelmagno shavings, rocket, olive oil, salt and pepper.\",8.0,\"GL, LA, SE\",null,\"Sì\",null],[\"Panini\",\"Panino al Salmone Affumicato\",\"Smoked Salmon Panino\",\"Salmone affumicato, zucchine grigliate, formaggio spalmabile, olio, sale e pepe.\",\"Smoked salmon, grilled zucchini, cream cheese, olive oil, salt and pepper.\",8.0,\"GL, LA, SE, PE\",null,\"Sì\",null],[\"Panini\",\"Panino Tartare di Fassona\",\"Fassona Tartare Panino\",\"120 g di tartare di fassona, porcini, grana, olio, sale, pepe e limone.\",\"120 g Fassona tartare, porcini, grana, olive oil, salt, pepper and lemon.\",10.0,\"GL, LA, SE\",\"Crudo\",\"Sì\",null],[\"Panini\",\"Panino Bra\",\"Bra Panino\",\"Salsiccia di Bra cruda, fontina e cipolle caramellate.\",\"Raw Bra sausage, fontina and caramelised onions.\",10.5,\"GL, LA, SE\",\"Crudo\",\"Sì\",null],[\"Panini\",\"Panino Tartare alla Burrata\",\"Burrata Tartare Panino\",\"Tartare di fassona, peperoni e burrata. Specialità del banco.\",\"Fassona tartare, peppers and burrata. Counter speciality.\",null,\"GL, LA, SE\",\"Solo al banco, Crudo\",\"Sì\",\"\"],[\"Panini\",\"Panino Milza\",\"Milza (Spleen) Panino\",\"Milza, caciocavallo e limone. La specialità della casa per i palati coraggiosi.\",\"Spleen, caciocavallo and lemon. The house speciality for brave palates.\",null,\"GL, LA, SE\",\"Solo al banco\",\"Sì\",null],[\"Panini Speciali\",\"Panino Lampredotto\",\"Lampredotto Panino\",\"Lampredotto (abomaso) e salsa verde. Lo street food toscano, a Torino.\",\"Lampredotto (beef abomasum) with salsa verde. Tuscan street food, in Turin.\",5.0,\"GL, SE\",\"★ Il più ordinato\",\"Sì\",null],[\"Panini Speciali\",\"Panino Polpette\",\"Meatballs Panino\",\"Polpette al caciocavallo grigliate, robiola, paté d'olive, pomodoro e insalata.\",\"Grilled caciocavallo meatballs, robiola, olive pâté, tomato and lettuce.\",8.0,\"GL, LA, UO, SE\",null,\"Sì\",null],[\"Panini Speciali\",\"Panino Sfilacciato di Maiale\",\"Pulled Pork Panino\",\"Spalla di maiale sfilacciata, cavolo cappuccio e salsa BBQ.\",\"Slow-cooked pulled pork shoulder, cabbage slaw and BBQ sauce.\",8.0,\"GL, SE\",null,\"Sì\",null],[\"Fritti\",\"Nuggets di Pollo\",\"Chicken Nuggets\",\"Bocconcini di pollo impanati e fritti: croccanti fuori, morbidi dentro.\",\"Breaded chicken nuggets — crispy outside, tender inside.\",4.0,\"GL, UO\",null,\"Sì\",null],[\"Fritti\",\"Anelli di Cipolla\",\"Onion Rings\",\"Anelli di cipolla impanati e fritti. Il contorno che non stanca mai.\",\"Battered onion rings. The side dish that never gets old.\",4.5,\"GL, LA, UO\",\"Vegetariano\",\"Sì\",null],[\"Dolci\",\"Piadina alla Nutella\",\"Nutella Piadina\",\"Piadina calda alla piastra con Nutella. Il finale perfetto.\",\"Warm piadina with Nutella. The perfect ending.\",4.5,\"GL, LA, FG\",\"Vegetariano\",\"Sì\",null],[\"Bevande & Birre\",\"Panino + Coca-Cola 450 ml\",\"Panino + 450 ml Coca-Cola\",\"L'abbinamento ufficiale: qualsiasi panino con una Coca-Cola da 450 ml.\",\"The official pairing: any panino with a 450 ml Coca-Cola.\",null,\"—\",\"Solo al banco\",\"Sì\",null],[\"Bevande & Birre\",\"Coca-Cola & bibite — 450 ml\",\"Coca-Cola & soft drinks — 450 ml\",\"Coca-Cola e le altre bibite in bottiglia da 450 ml, servite fresche.\",\"Coca-Cola and other soft drinks in 450 ml bottles, served cold.\",null,null,null,\"Sì\",null],[\"Bevande & Birre\",\"Spritz\",\"Spritz\",\"Il re dell'aperitivo. Da gustare in orario serale, al banco o al tavolino.\",\"The king of the aperitivo. Enjoy in the evening hours, at the counter or a table.\",null,\"SO2\",null,\"Sì\",null],[\"Bevande & Birre\",\"Sangria della Casa\",\"House Sangria\",\"La nostra sangria, fresca e fruttata. Ottima con il club sandwich.\",\"Our sangria — fresh and fruity. Pairs perfectly with the Club Sandwich.\",null,\"SO2\",null,\"Sì\",null],[\"Bevande & Birre\",\"Birre in bottiglia\",\"Bottled beers\",\"La selezione di birre in bottiglia, servite fresche.\",\"Our selection of bottled beers, served chilled.\",\"\",\"—\",\"\",\"Sì\",null],[\"Bevande & Birre\",\"Acqua naturale e gassata\",\"Still & sparkling water\",\"Acqua naturale e gassata, servita fresca.\",\"Still and sparkling water, served chilled.\",null,\"—\",null,\"Sì\",null]]"
+    },
+    {
+      "key": "source_info_hours",
+      "value": "[[\"PANINOTECA RABEL — INFO & CONTATTI\",null],[null,null],[\"Nome\",\"Paninoteca Rabel\"],[\"Indirizzo\",\"Via San Tommaso 4B, 10122 Torino\"],[\"Quartiere\",\"Quadrilatero Romano · Centro storico\"],[\"Telefono\",\"011 060 6294\"],[\"Google Maps\",\"https://www.google.com/maps/search/Paninoteca+Rabel+Via+San+Tommaso+4B+Torino\"],[\"Valutazione\",\"4,8/5 su Google (oltre 230 recensioni)\"],[\"Spesa media\",\"1–10€ a persona (fascia economica)\"],[\"Tipo cucina\",\"Paninoteca · Street food · Hamburger · Aperitivo\"],[null,null],[\"ORARI DI APERTURA\",null],[\"Lunedì\",\"Chiuso\"],[\"Martedì\",\"Chiuso\"],[\"Mercoledì – Venerdì\",\"12:00 – 15:30 · 18:30 – 20:30\"],[\"Sabato – Domenica\",\"12:00 – 20:30\"],[null,null],[\"ORARI APERITIVO\",null],[\"Sera\",\"Dalle 18:30 (Mer–Ven) e giornata intera nel weekend\"],[\"Combo imperdibile\",\"Club Sandwich 9,00€ · Aperitivo completo Club Sandwich + Spritz/Sangria 12,50€\"],[null,null],[\"DELIVERY & ASPORTO\",null],[\"Just Eat\",\"https://www.justeat.it/restaurants-paninoteca-rabel-torino/menu\"],[\"Glovo\",\"https://glovoapp.com/it/it/torino/stores/paninoteca-rabel-tor\"],[\"Deliveroo\",\"https://deliveroo.it/it/menu/torino/torino-centro/paninoteca-rabel\"],[\"Note\",\"Prezzi online includono le commissioni di servizio delle piattaforme; il listino del banco può differire leggermente.\"],[\"Instagram\",\"https://www.instagram.com/paninoteca.rabel/\"],[\"Facebook\",\"https://www.facebook.com/p/Paninoteca-Rabel-100077207096392/\"]]"
+    },
+    {
+      "key": "source_allergens_sources",
+      "value": "[[\"PANINOTECA RABEL — ALLERGENI & FONTI DEI DATI\",null,null],[null,null,null],[\"LEGENDA ALLERGENI (Reg. UE 1169/2011)\",null,null],[\"Codice\",\"Italiano\",\"English\"],[\"GL\",\"Glutine (cereali contenenti glutine)\",\"Gluten (cereals containing gluten)\"],[\"LA\",\"Latte e derivati (incl. lattosio)\",\"Milk and derivatives (incl. lactose)\"],[\"UO\",\"Uova e derivati\",\"Eggs and derivatives\"],[\"PE\",\"Pesce\",\"Fish\"],[\"SO\",\"Soia\",\"Soy\"],[\"SE\",\"Semi di sesamo\",\"Sesame seeds\"],[\"SO2\",\"Anidride solforosa e solfiti\",\"Sulphur dioxide and sulphites\"],[\"FG\",\"Frutta a guscio (nocciole, …)\",\"Tree nuts (hazelnuts, …)\"],[\"Nota\",null,null],[null,null,null],[\"FONTI DEI DATI (aggiornato al 15/11/2026)\",null,null],[\"Locandina in negozio (foto 6 mesi fa)\",\"Club Sandwich 9,00€; aperitivo completo Club Sandwich + Spritz/Sangria 12,50€; offerta Panini + Coca-Cola 450 ml; slogan “…E TANTO ALTRO!!!”\",null],[\"Cartello da banco (foto 2 anni fa)\",\"MILZA (milza, caciocavallo e limone); LAMPREDOTTO (lampredotto e salsa verde); TARTARE (tartare di fassona, peperoni e burrata); BEEFBURGER (150 g fassona, roast beef, fontina, pomodoro e rucola); POLLASTRO BURGER (cotoletta di pollo, pomodoro, insalata, bacon e fontina); SPORCA DITA (2 hamburger di fassona, bacon, pecorino, robiola, zucchine)\",null],[\"Just Eat\",\"justeat.it/restaurants-paninoteca-rabel-torino/menu — sezioni: Crea il Tuo Panino, Burgers, Panini, Panini Speciali, Fritti, Dolci, Bevande, Birre. Prezzi online usati per questo foglio (Anelli di Cipolla 4,50 €; Nuggets 4,00 €; Cotoletta 5,50 €; Sfilacciato 8,00 €; Polpette 8,00 €).\",null],[\"Glovo\",\"glovoapp.com/it/it/torino/stores/paninoteca-rabel-tor — listino online con prezzi barrati -10% (es. Hamburger 7,50 €; Doppio / Sporca Dita / Burger Mix 9,00 €; Formaggioso 8,50 €; Pollastro 9,00 €; Tartare 10,00 €; Bra 10,50 €; Lampredotto 5,00 €; Piadina Nutella 4,50 €).\",null],[\"Deliveroo\",\"deliveroo.it/it/menu/torino/torino-centro/paninoteca-rabel — menu attivo del locale (consegna in zona Torino Centro, ~32 min). Fonte ufficiale dal sitemap Deliveroo; verificata e aggiunta il 15/11/2026.\",null],[\"RestaurantGuru / Google\",\"Valutazione 4,8/5 (230+ recensioni). Piatti consigliati dai clienti: Lampredotto, Triplo Hamburger Fassona Piemontese, Milza, Diaframma.\",null],[\"Indirizzo & orari\",\"Via San Tommaso 4B, 10122 Torino · Tel. 011 060 6294 · Lun–Mar chiuso; Mer–Ven 12:00–15:30 e 18:30–20:30; Sab–Dom 12:00–20:30 (profilo attività e RestaurantGuru).\",null],[\"Cosa NON è pubblico\",\"Prezzi al banco di BeefBurger, Milza, Tartare alla burrata, combo Panino + Coca-Cola; lista birre alla spina/bottiglia. Verificare con il locale.\",null],[\"Cosa va verificato prima della stampa definitiva\",\"Prezzi online vs banco; disponibilità stagionale di lampredotto/milza; allergeni effettivi per ricetta; P.IVA da inserire nel menù stampato.\",null]]"
+    },
+    {
+      "key": "source_info",
+      "value": "[[\"Chiave\",\"Valore\"],[\"phone\",\"011 060 6294\"],[\"phone_href\",\"+390110606294\"],[\"address\",\"Via San Tommaso 4B\"],[\"cap\",\"10122\"],[\"city\",\"Torino\"],[\"district\",\"Quadrilatero Romano\"],[\"maps_url\",\"https://www.google.com/maps/search/?api=1&query=Paninoteca+Rabel+Via+San+Tommaso+4B+Torino&query_place_id=ChIJa3VtIBZtiEcR0LKpWnCbTIw\"],[\"review_url\",\"https://search.google.com/local/writereview?placeid=ChIJa3VtIBZtiEcR0LKpWnCbTIw\"],[\"justeat_url\",\"https://www.justeat.it/restaurants-paninoteca-rabel-torino/menu\"],[\"glovo_url\",\"https://glovoapp.com/it/it/torino/stores/paninoteca-rabel-tor\"],[\"deliveroo_url\",\"https://deliveroo.it/it/menu/torino/torino-centro/paninoteca-rabel\"],[\"instagram_url\",\"https://www.instagram.com/paninoteca.rabel/\"],[\"instagram_handle\",\"@paninoteca.rabel\"],[\"facebook_url\",\"https://www.facebook.com/p/Paninoteca-Rabel-100077207096392/\"],[\"rating\",\"4.8\"],[\"reviews\",\"230\"],[\"tagline_it\",\"Panini, burger e street food nel cuore di Torino\"],[\"tagline_en\",\"Panini, burgers and street food in the heart of Turin\"],[\"price_note_it\",\"Prezzi in euro, allineati ai canali online (Just Eat / Glovo), IVA inclusa ove applicabile. Il listino del banco può differire leggermente. Gli allergeni indicati sono stimati: in caso di allergie o intolleranze avvisa sempre il personale.\"],[\"price_note_en\",\"Prices in euros, aligned with our online channels (Just Eat / Glovo), VAT included where applicable. Counter prices may differ slightly. Listed allergens are estimates: always tell our team about allergies or intolerances.\"],[\"reg_note_it\",\"Informazioni allergeni ai sensi del Reg. UE n. 1169/2011. Ingredienti e ricette possono variare: per allergie gravi, chiedi sempre conferma al personale. Fritti preparati in olio condiviso.\"],[\"reg_note_en\",\"Allergen information pursuant to EU Regulation 1169/2011. Ingredients and recipes may vary: for severe allergies, always confirm with our staff. Fried items share the same frying oil.\"],[\"delivery_note_it\",\"La Paninoteca Rabel è su <strong>Just Eat</strong>, <strong>Glovo</strong> e <strong>Deliveroo</strong>. La consegna copre il centro di Torino: il prezzo online include le commissioni di servizio delle piattaforme.\"],[\"delivery_note_en\",\"Paninoteca Rabel is on <strong>Just Eat</strong>, <strong>Glovo</strong> and <strong>Deliveroo</strong>. Delivery covers central Turin — online prices include platform service fees.\"]]"
+    }
+  ]
+}
