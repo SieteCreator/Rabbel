@@ -33,8 +33,17 @@
     ]);
     const [menu, hours, info, categories] = results;
     // Tabelle ancora vuote: manteniamo lo snapshot, non mostriamo un menu vuoto.
-    if (menu.status === 'fulfilled' && (menu.value.length || categories.status === 'fulfilled'))
-      applySheetMenu(menuRows(menu.value), categories.status === 'fulfilled' ? categories.value : null);
+    const liveCategories = categories.status === 'fulfilled' ? categories.value : null;
+    if (menu.status === 'fulfilled' && (menu.value.length || Array.isArray(liveCategories))) {
+      // Una categoria nascosta sparisce dal sito insieme a tutti i suoi piatti.
+      const hidden = new Set((liveCategories || [])
+        .filter(c => c && c.hidden === true && typeof c.name === 'string')
+        .map(c => c.name.trim()));
+      const published = hidden.size
+        ? menu.value.filter(d => !hidden.has(String(d.category == null ? '' : d.category).trim()))
+        : menu.value;
+      applySheetMenu(menuRows(published), liveCategories);
+    }
     if (hours.status === 'fulfilled' && hours.value.length) applySheetHours(asCells(hours.value.map(h => [h.days, h.hours])));
     if (info.status === 'fulfilled' && info.value.length) applySheetInfo(asCells(info.value.map(i => [i.key, i.value])));
     results.forEach(r => { if (r.status === 'rejected') console.warn('Aggiornamento menù non riuscito:', r.reason); });

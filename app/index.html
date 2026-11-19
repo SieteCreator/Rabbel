@@ -19,12 +19,12 @@
 }
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
 body{background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; padding-bottom:80px;}
-header{position:sticky; top:0; z-index:10; background:var(--ink); color:var(--paper); padding:10px 16px; display:flex; align-items:center; gap:10px;}
-header .logo{font-size:1.05rem; font-weight:800; letter-spacing:.5px; white-space:nowrap;}
+header{position:sticky; top:0; z-index:10; background:var(--ink); color:var(--paper); padding:10px 12px; display:flex; align-items:center; gap:8px;}
+header .logo{flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:1rem; font-weight:800; letter-spacing:.4px;}
 header .logo em{color:var(--yellow); font-style:normal;}
-header .spacer{flex:1;}
+header a.site, header button.site{flex:0 0 auto;}
 header a.site{color:var(--yellow); font-size:.8rem; text-decoration:none; border:1px solid var(--yellow); border-radius:8px; padding:6px 10px;}
-#connDot{font-size:.75rem; color:#9be3b0; white-space:nowrap;}
+#connDot{flex:0 0 auto; font-size:.72rem; color:#9be3b0; white-space:nowrap;}
 #connDot.off{color:#ffb3ab;}
 main{max-width:780px; margin:0 auto; padding:14px;}
 .card{background:#fff; border:2.5px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:14px; margin-bottom:14px;}
@@ -50,8 +50,8 @@ textarea{min-height:64px; resize:vertical;}
 .brand-hero .big em{color:var(--red); font-style:normal;}
 .brand-hero p{margin-top:4px; color:#4A443C;}
 /* tabs */
-.tabs{display:flex; gap:8px; margin:10px 0 14px; overflow-x:auto; padding-bottom:4px;}
-.tab{flex:1; text-align:center; border:2.5px solid var(--ink); background:#fff; padding:10px 6px; border-radius:12px; font-weight:800; cursor:pointer; white-space:nowrap; font-size:.85rem;}
+.tabs{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 14px;}
+.tab{flex:1 1 30%; min-width:0; text-align:center; border:2.5px solid var(--ink); background:#fff; padding:9px 4px; border-radius:12px; font-weight:800; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:.8rem;}
 .tab.active{background:var(--ink); color:var(--yellow);}
 /* dish list */
 .toolbar{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
@@ -67,7 +67,7 @@ textarea{min-height:64px; resize:vertical;}
 .foto-actions .btn{padding:7px 11px; font-size:.8rem; box-shadow:0 2px 0 var(--ink);}
 .dish{border:2px solid var(--ink); border-radius:12px; background:#fff; margin-bottom:10px; overflow:hidden;}
 .dish-head{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer;}
-.dish-head .nm{flex:1; font-weight:800;}
+.dish-head .nm{flex:1; min-width:0; font-weight:800; overflow-wrap:anywhere;}
 .dish-head .pr{font-weight:800; background:var(--ink); color:var(--yellow); padding:2px 10px; border-radius:8px; font-size:.85rem; white-space:nowrap;}
 .dish-head .unavail{background:var(--red); color:#fff; font-size:.65rem; font-weight:800; border-radius:6px; padding:3px 6px; letter-spacing:.5px;}
 .dish-body{display:none; border-top:2px dashed var(--ink); padding:12px;}
@@ -93,6 +93,21 @@ textarea{min-height:64px; resize:vertical;}
 #banner{display:none; background:#ffd9d4; border:2px solid var(--red); color:#8a1508; padding:10px 12px; border-radius:10px; margin-bottom:12px; font-size:.85rem; font-weight:600; white-space:pre-wrap;}
 .group-title{font-size:.78rem; text-transform:uppercase; letter-spacing:.6px; color:var(--red); font-weight:900; margin:14px 0 6px; border-bottom:2px solid var(--ink); padding-bottom:4px;}
 .help li{margin:6px 0 6px 18px; font-size:.9rem; line-height:1.45;}
+/* categorie */
+.cat-head .nm{min-width:0; overflow:hidden;}
+.cat-head .cnt{background:var(--yellow); color:var(--ink); border:2px solid var(--ink); border-radius:999px; padding:1px 8px; font-size:.75rem; font-weight:800; flex:0 0 auto;}
+.cat-head .chev{flex:0 0 auto; font-size:.95rem; opacity:.65;}
+.cat-hidden-note{display:block; width:max-content; max-width:100%; margin-top:3px; background:var(--red); color:#fff; font-size:.58rem; font-weight:900; letter-spacing:.5px; border-radius:6px; padding:2px 6px;}
+.cat-hidden-note.inline{display:inline-block; margin:0 0 0 6px; vertical-align:middle;}
+.radio-list{display:flex; flex-direction:column; gap:8px; margin:10px 0 4px;}
+.radio-row{display:flex; align-items:center; gap:12px; border:2px solid var(--ink); border-radius:12px; padding:11px 12px; background:#fff; font-size:.92rem; font-weight:700; cursor:pointer;}
+.radio-row input{width:22px; height:22px; margin:0; flex:0 0 auto; accent-color:var(--red);}
+.radio-row span{min-width:0;}
+.radio-row small{display:block; font-weight:600; color:#6b6459; font-size:.72rem; margin-top:2px;}
+.radio-row.sel{background:#FFF3C4; box-shadow:0 2px 0 var(--ink);}
+.radio-row.danger.sel{background:#FFD9D4;}
+.cat-del-panel{border-top:2px dashed var(--ink); margin-top:14px; padding-top:12px;}
+.warn{margin:10px 0 0; background:#ffd9d4; border:2px solid var(--red); color:#8a1508; border-radius:10px; padding:10px 12px; font-size:.82rem; font-weight:700;}
 button.site{background:transparent; font-family:inherit; cursor:pointer;}
 @supports (padding: max(0px)){
   header{padding-top:max(10px, env(safe-area-inset-top)); padding-left:max(16px, env(safe-area-inset-left)); padding-right:max(16px, env(safe-area-inset-right));}
@@ -100,16 +115,16 @@ button.site{background:transparent; font-family:inherit; cursor:pointer;}
   body{padding-bottom:calc(80px + env(safe-area-inset-bottom));}
   #toast{bottom:calc(24px + env(safe-area-inset-bottom));}
 }
+@media (max-width:430px){ header .logo .opt{display:none;} }
 @media (max-width:560px){ .row{flex-direction:column;} header .site{display:none;} button.site{display:inline-flex;} }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">🥖 PANINOTECA <em>RABEL</em> · Gestione</div>
-  <div class="spacer"></div>
+  <div class="logo">🥖 RABEL<span class="opt"> · Gestione</span></div>
   <span id="connDot" class="off">● non connesso</span>
-  <a class="site" id="site-link" href="../">Vedi il menù →</a>
+  <a class="site" id="site-link" href="../">Menù ↗</a>
   <button class="site" id="btn-logout" type="button" hidden>Esci</button>
 </header>
 
@@ -137,10 +152,11 @@ button.site{background:transparent; font-family:inherit; cursor:pointer;}
 <div id="view-app" hidden>
   <div class="tabs">
     <button class="tab active" data-tab="piatti">🍽 Piatti</button>
+    <button class="tab" data-tab="categorie">📂 Categorie</button>
     <button class="tab" data-tab="foto">📷 Foto</button>
     <button class="tab" data-tab="orari">🕒 Orari</button>
-    <button class="tab" data-tab="info">📇 Info &amp; Social</button>
-    <button class="tab" data-tab="aiuto">❓ Come funziona</button>
+    <button class="tab" data-tab="info">📇 Info</button>
+    <button class="tab" data-tab="aiuto">❓ Aiuto</button>
   </div>
 
   <div id="tab-piatti">
@@ -148,7 +164,6 @@ button.site{background:transparent; font-family:inherit; cursor:pointer;}
       <input type="text" id="dish-search" placeholder="Cerca piatto…">
       <select id="dish-cat"><option value="">Tutte le categorie</option></select>
       <button class="btn small red" id="btn-add-toggle">+ Aggiungi piatto</button>
-      <button class="btn small ghost" id="btn-categories">Categorie</button>
     </div>
 
     <div class="card" id="add-dish-card" hidden>
@@ -165,8 +180,18 @@ button.site{background:transparent; font-family:inherit; cursor:pointer;}
       <div class="actions"><button class="btn" id="btn-add-save">Aggiungi piatto</button><button class="btn ghost" id="btn-add-cancel">Annulla</button></div>
     </div>
 
-    <div class="card" id="category-card" hidden><h2>Categorie</h2><p class="muted">Modifica i nomi, l’ordine o sposta i piatti prima di eliminare una categoria.</p><div id="categories-list"></div><label>Nuova categoria (IT)</label><input id="cat-new-it" type="text"><label>Nuova categoria (EN)</label><input id="cat-new-en" type="text"><div class="actions"><button class="btn" id="cat-add">Aggiungi categoria</button></div></div>
     <div id="dish-list"></div>
+  </div>
+
+  <div id="tab-categorie" hidden>
+    <div class="card">
+      <h2>Categorie</h2>
+      <p class="muted">Tocca una categoria per rinominarla, spostarla su o giù, nasconderla dal sito o eliminarla. Le categorie nascoste non compaiono sul sito, e con loro spariscono i piatti che contengono.</p>
+      <label for="cat-new-it">Nuova categoria (IT)</label><input id="cat-new-it" type="text" placeholder="es. Insalate">
+      <label for="cat-new-en">Nuova categoria (EN)</label><input id="cat-new-en" type="text" placeholder="es. Salads">
+      <div class="actions"><button class="btn small" id="cat-add">+ Aggiungi categoria</button></div>
+    </div>
+    <div id="categories-list"></div>
   </div>
 
   <div id="tab-foto" hidden>
@@ -232,7 +257,7 @@ button.site{background:transparent; font-family:inherit; cursor:pointer;}
     </div>
   </div>
 
-  <div id="tab-aiuto" hidden><div class="card"><h2>Come funziona</h2><p>Le modifiche salvate sono pubblicate tramite Supabase. Il sito si aggiorna automaticamente.</p><div class="actions"><button class="btn small" id="btn-reload">Ricarica</button></div></div></div>
+  <div id="tab-aiuto" hidden><div class="card"><h2>Come funziona</h2><p>Le modifiche salvate sono pubblicate tramite Supabase. Il sito si aggiorna automaticamente.</p><ul class="help"><li><b>Piatti</b>: tocca un piatto per modificarlo; l’interruttore verde lo rende «esaurito» sul sito.</li><li><b>Categorie</b>: tocca una categoria per rinominarla o riordinarla. L’interruttore verde la mostra sul sito: se lo spegni, spariscono dal sito la categoria e i suoi piatti.</li><li>Per eliminare una categoria scegli col pallino dove spostare i piatti, oppure decidi di eliminarli insieme alla categoria.</li></ul><div class="actions"><button class="btn small" id="btn-reload">Ricarica</button></div></div></div>
 </div>
 
 </main>

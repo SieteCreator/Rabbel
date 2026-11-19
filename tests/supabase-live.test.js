@@ -34,3 +34,36 @@ test('empty or failed tables do not replace the existing snapshot', async () => 
   try { await refresh(); } finally {console.warn=warn;}
   assert.deepEqual(called,[]);
 });
+
+test('a hidden category disappears from the menu together with its dishes', async () => {
+  const calls = [];
+  global.applySheetMenu = (resp, cats) => calls.push({ names: resp.table.rows.map(r => r.c[1].v), cats: (cats || []).map(c => c.name) });
+  global.applySheetHours = () => {}; global.applySheetInfo = () => {};
+  const dishes = [
+    {category:'Panini', name:'Visibile', available:true},
+    {category:'Dolci', name:'Cannolo', available:true},
+    {category:'Dolci', name:'Tiramisù', available:true}
+  ];
+  const categories = [{id:5,name:'Panini',hidden:false},{id:3,name:'Dolci',hidden:true}];
+  global.fetch = async url => url.pathname.endsWith('rabel_dishes')
+    ? {ok:true,json:async()=>dishes}
+    : url.pathname.endsWith('rabel_categories')
+      ? {ok:true,json:async()=>categories}
+      : {ok:true,json:async()=>[]};
+  await refresh();
+  assert.deepEqual(calls[0].names, ['Visibile'], 'i piatti della categoria nascosta non vengono pubblicati');
+  assert.deepEqual(calls[0].cats, ['Panini','Dolci'], 'in gestione la categoria resta disponibile');
+});
+
+test('visible categories are published unchanged', async () => {
+  const calls = [];
+  global.applySheetMenu = (resp) => calls.push(resp.table.rows.map(r => r.c[1].v));
+  global.applySheetHours = () => {}; global.applySheetInfo = () => {};
+  global.fetch = async url => url.pathname.endsWith('rabel_dishes')
+    ? {ok:true,json:async()=>[{category:'Panini', name:'A'},{category:'Dolci', name:'B'}]}
+    : url.pathname.endsWith('rabel_categories')
+      ? {ok:true,json:async()=>[{id:1,name:'Panini',hidden:false},{id:2,name:'Dolci',hidden:false}]}
+      : {ok:true,json:async()=>[]};
+  await refresh();
+  assert.deepEqual(calls[0], ['A','B']);
+});
