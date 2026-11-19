@@ -1,5 +1,5 @@
--- Foundation for the owner app. Do not apply until the matching site and app
--- have been tested and deployed together. Existing dish names/IDs are retained.
+-- Foundation for the owner app. Applied to the Rabel Menu project after a
+-- rollback-only validation. Existing dish names/IDs are retained.
 create table public.rabel_categories (
   id bigint generated always as identity primary key,
   name text not null unique check (length(trim(name)) > 0 and name = trim(name)),

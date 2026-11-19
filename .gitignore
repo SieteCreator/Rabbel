@@ -1,0 +1,7 @@
+.gradle/
+android/local.properties
+android/**/build/
+node_modules/
+
+deliverables/
+app/capability.js

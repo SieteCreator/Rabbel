@@ -1,0 +1,23 @@
+name: Test Android build
+on:
+  push:
+    paths: ['android/**', 'app/**', '.github/workflows/android-build.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Create nonfunctional capability for build-only testing
+        run: python3 -c 'from pathlib import Path; Path("app/capability.js").write_text("globalThis.RABEL_APP_KEY = "+repr("0"*64)+";\n")'
+      - name: Build debug APK (not published)
+        run: gradle -p android assembleDebug
