@@ -1,0 +1,14 @@
+name: Verify published APK
+on:
+  push:
+    paths: ['downloads/Rabel-Gestione.apk', 'scripts/verify_public_apk.py', '.github/workflows/verify-apk.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify APK connects to Supabase
+        run: python3 scripts/verify_public_apk.py

@@ -4,8 +4,7 @@ on:
     paths: ['android/**', 'app/**', '.github/workflows/android-build.yml']
   workflow_dispatch:
 permissions:
-  contents: write
-  statuses: write
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,16 +17,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
-      - name: Generate APK capability
-        run: |
-          python3 -c 'import secrets,hashlib,pathlib; token=secrets.token_hex(32); pathlib.Path("app/capability.js").write_text("globalThis.RABEL_APP_KEY = "+repr(token)+";\n"); pathlib.Path("/tmp/rabel-hash").write_text(hashlib.sha256(token.encode()).hexdigest())'
-      - name: Build APK
+      - name: Create nonfunctional capability for build-only testing
+        run: python3 -c 'from pathlib import Path; Path("app/capability.js").write_text("globalThis.RABEL_APP_KEY = "+repr("0"*64)+";\n")'
+      - name: Build debug APK (not published)
         run: gradle -p android assembleDebug
-      - name: Transfer build and capability digest through GitHub
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python3 -c 'import base64,json; print(json.dumps({"content":base64.b64encode(open("android/app/build/outputs/apk/debug/app-debug.apk","rb").read()).decode(),"encoding":"base64"}))' > /tmp/blob.json
-          SHA=$(gh api --method POST repos/${{ github.repository }}/git/blobs --input /tmp/blob.json --jq .sha)
-          gh api --method POST repos/${{ github.repository }}/statuses/${{ github.sha }} -f state=success -f context=rabel-public-apk -f description="$SHA" >/dev/null
-          gh api --method POST repos/${{ github.repository }}/statuses/${{ github.sha }} -f state=success -f context=rabel-capability-digest -f description="$(cat /tmp/rabel-hash)" >/dev/null
