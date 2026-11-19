@@ -44,7 +44,7 @@ public final class MainActivity extends Activity {
                 String path = uri.getPath();
                 if (path == null || !path.startsWith("/assets/") || path.contains("..")) return blocked();
                 String name = path.substring("/assets/".length());
-                if (!(name.equals("index.html") || name.equals("domain.js") || name.equals("client.js") || name.equals("ui.js"))) return blocked();
+                if (!(name.equals("index.html") || name.equals("capability.js") || name.equals("domain.js") || name.equals("client.js") || name.equals("ui.js"))) return blocked();
                 String type = name.endsWith(".html") ? "text/html" : "application/javascript";
                 try { return new WebResourceResponse(type, "UTF-8", getAssets().open(name)); }
                 catch (IOException e) { return blocked(); }

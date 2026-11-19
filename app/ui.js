@@ -10,8 +10,6 @@ let state = {dishes:[],categories:[],hours:[],info:{}};
 let photoTarget = null;
 function banner(text) { const el=$('#banner'); el.textContent=text||''; el.style.display=text?'block':'none'; }
 function toast(text) { const el=$('#toast'); el.textContent=text; el.style.display='block'; setTimeout(()=>el.style.display='none',3000); }
-function loginView(message='') { $('#view-login').hidden=false; $('#view-app').hidden=true; $('#connDot').textContent='● non connesso'; $('#connDot').classList.add('off'); $('#login-status').textContent=message; }
-function appView() { $('#view-login').hidden=true; $('#view-app').hidden=false; $('#connDot').textContent='● connesso'; $('#connDot').classList.remove('off'); }
 async function busy(fn) { $$('.btn').forEach(x=>x.disabled=true); banner(''); try { await fn(); } catch(e) { banner(e.message || 'Errore di connessione'); } finally { $$('.btn').forEach(x=>x.disabled=false); } }
 async function load() {
   const [dishes,categories,hours,info] = await Promise.all([
@@ -47,9 +45,6 @@ function renderHours() {
 }
 function slotHTML(slot=['','']) { return `<div class="hour-row"><input type="time" class="start" value="${esc(slot[0])}" aria-label="Dalle"><span>–</span><input type="time" class="end" value="${esc(slot[1])}" aria-label="Alle"><button class="btn small ghost slot-remove" aria-label="Elimina fascia">✕</button></div>`; }
 function renderInfo() { for(const [id,key] of FIELDS) $('#'+id).value=state.info[key] || ''; }
-$('#btn-login').addEventListener('click',()=>busy(async()=>{await api.login($('#f-token').value); $('#f-token').value=''; await load(); appView();}));
-$('#f-token').addEventListener('keydown',e=>{if(e.key==='Enter') $('#btn-login').click();});
-$('#btn-logout').addEventListener('click',()=>busy(async()=>{await api.logout(); loginView('Disconnesso');}));
 $('#btn-reload').addEventListener('click',()=>busy(load));
 $('#dish-search').addEventListener('input',renderDishes); $('#dish-cat').addEventListener('change',renderDishes);
 $('#btn-add-toggle').onclick=()=>$('#add-dish-card').hidden=!$('#add-dish-card').hidden;
@@ -88,4 +83,4 @@ async function preparePhoto(file) {
   } finally { bitmap.close(); }
 }
 $('#foto-input').addEventListener('change',()=>{const file=$('#foto-input').files[0]; if(file&&photoTarget) busy(async()=>{await api.upload(await preparePhoto(file),photoTarget); await load(); toast('Foto salvata');});});
-if(api.hasSession()) busy(async()=>{await load();appView();});
+busy(async()=>{await load(); $('#connDot').textContent='● connesso'; $('#connDot').classList.remove('off');});
