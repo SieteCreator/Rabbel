@@ -4,8 +4,7 @@ on:
     paths: ['android/**', 'app/**', '.github/workflows/android-build.yml']
   workflow_dispatch:
 permissions:
-  contents: write
-  statuses: write
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,45 +17,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
-      - name: Generate private APK capability
-        run: |
-          python3 -c 'import secrets,hashlib,pathlib; token=secrets.token_hex(32); pathlib.Path("app/capability.js").write_text("globalThis.RABEL_APP_KEY = "+repr(token)+";\n"); pathlib.Path("/tmp/rabel-token").write_text(token); pathlib.Path("/tmp/rabel-hash").write_text(hashlib.sha256(token.encode()).hexdigest())'
-      - name: Build debug APK
+      - name: Create nonfunctional capability for build-only testing
+        run: python3 -c 'from pathlib import Path; Path("app/capability.js").write_text("globalThis.RABEL_APP_KEY = "+repr("0"*64)+";\n")'
+      - name: Build debug APK (not published)
         run: gradle -p android assembleDebug
-      - name: Encrypt APK for private transfer
-        run: openssl cms -encrypt -binary -aes-256-cbc -in android/app/build/outputs/apk/debug/app-debug.apk -outform DER -out /tmp/rabel.apk.cms android/transfer/public-cert.pem
-      - name: Transfer encrypted APK and capability digest
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python3 -c 'import base64,json; print(json.dumps({"content":base64.b64encode(open("/tmp/rabel.apk.cms","rb").read()).decode(),"encoding":"base64"}))' > /tmp/blob.json
-          SHA=$(gh api --method POST repos/${{ github.repository }}/git/blobs --input /tmp/blob.json --jq .sha)
-          gh api --method POST repos/${{ github.repository }}/statuses/${{ github.sha }} -f state=success -f context=rabel-private-transfer -f description="$SHA" >/dev/null
-          gh api --method POST repos/${{ github.repository }}/statuses/${{ github.sha }} -f state=success -f context=rabel-capability-digest -f description="$(cat /tmp/rabel-hash)" >/dev/null
-      - name: Verify activated proxy without logging the capability
-        run: |
-          python3 - <<'PY'
-          import json, time, urllib.request, urllib.error
-          base = 'https://mpspdmjvjkqsssxgbxkm.supabase.co/functions/v1/rabel-app/'
-          token = open('/tmp/rabel-token').read()
-          def call(path, method='GET', payload=None, authorized=True):
-              headers = {'x-rabel-app-key':token} if authorized else {}
-              if payload is not None: headers.update({'Content-Type':'application/json','Prefer':'return=representation'}); payload=json.dumps(payload).encode()
-              request = urllib.request.Request(base+path, data=payload, headers=headers, method=method)
-              try:
-                  with urllib.request.urlopen(request, timeout=20) as r: return r.status, r.read()
-              except urllib.error.HTTPError as e: return e.code, e.read()
-          for attempt in range(60):
-              status, body = call('rest/v1/rabel_dishes?select=id,name&order=id.asc&limit=1')
-              if status == 200: break
-              if status != 401: raise RuntimeError('Proxy read failed: HTTP '+str(status))
-              time.sleep(5)
-          else: raise RuntimeError('Capability not activated before timeout')
-          dishes=json.loads(body); assert len(dishes)==1
-          assert call('rest/v1/rabel_dishes?select=id', authorized=False)[0]==401
-          assert call('rest/v1/rabel_owners?select=*')[0]==403
-          dish=dishes[0]
-          status, body=call('rest/v1/rabel_dishes?id=eq.'+str(dish['id']), 'PATCH', {'name':dish['name']})
-          assert status==200 and len(json.loads(body))==1
-          print('Proxy checks passed: authenticated read, rejected anonymous/restricted access, no-op write')
-          PY
