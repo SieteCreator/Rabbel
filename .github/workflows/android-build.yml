@@ -17,5 +17,14 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
-      - name: Build debug APK (not published)
+      - name: Build debug APK
         run: gradle -p android assembleDebug
+      # The public repository only receives an encrypted archive. The private
+      # transfer key stays outside the repository and outside GitHub Actions.
+      - name: Encrypt private test build
+        run: openssl cms -encrypt -binary -aes-256-cbc -in android/app/build/outputs/apk/debug/app-debug.apk -outform DER -out rabel-test.apk.cms android/transfer/public-cert.pem
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rabel-private-test
+          path: rabel-test.apk.cms
+          retention-days: 1
