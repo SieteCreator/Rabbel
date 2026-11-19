@@ -34,6 +34,7 @@ jobs:
         run: gradle -p android assembleDebug
 
       - name: Pubblica l'APK in downloads/
+        if: github.ref == 'refs/heads/main'
         run: |
           cp android/app/build/outputs/apk/debug/app-debug.apk downloads/Rabel-Gestione.apk
           if git diff --quiet -- downloads/Rabel-Gestione.apk; then

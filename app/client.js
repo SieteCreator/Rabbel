@@ -43,7 +43,7 @@
     save(session);
     const notOwner = 'Questo account non ha i permessi di gestione';
     try {
-      if (await rpc('rabel_is_owner', {}) !== true) { save(null); throw new Error(notOwner); }
+      if (await rpc('rabel_is_owner', {}) === false) { save(null); throw new Error(notOwner); }
     } catch (error) {
       if (error.message === notOwner) throw error;   // controllo non disponibile: non bloccare l'accesso
     }
