@@ -971,14 +971,16 @@ function applySheetInfo(resp){
     }
     if (!Object.keys(d).length) return false;
     const info = MENU.info;
-    const val = k => (d[k] !== undefined && d[k] !== '') ? d[k] : null;
+    const val = k => Object.prototype.hasOwnProperty.call(d, k);
+    // Solo <strong> è consentito nelle note; ogni altro tag resta testo.
+    const safeStrong = s => escAttr(s).replace(/&lt;(\/?strong)&gt;/gi, '<$1>');
 
     /* --- testi IT/EN che passano dal dizionario STR --- */
     if (val('tagline_it')) STR.it.tagline = d.tagline_it;
     if (val('tagline_en')) STR.en.tagline = d.tagline_en;
-    if (val('reviews')) { STR.it.reviews = d.reviews + '+ recensioni su Google'; STR.en.reviews = d.reviews + '+ reviews on Google'; }
-    if (val('delivery_note_it')) STR.it.deliveryNote = escAttr(d.delivery_note_it);
-    if (val('delivery_note_en')) STR.en.deliveryNote = escAttr(d.delivery_note_en);
+    if (val('reviews')) { STR.it.reviews = d.reviews ? d.reviews + '+ recensioni su Google' : ''; STR.en.reviews = d.reviews ? d.reviews + '+ reviews on Google' : ''; }
+    if (val('delivery_note_it')) STR.it.deliveryNote = safeStrong(d.delivery_note_it);
+    if (val('delivery_note_en')) STR.en.deliveryNote = safeStrong(d.delivery_note_en);
 
     /* --- note legali (innerHTML) --- */
     if (val('price_note_it')) PRICE_NOTE.it = escAttr(d.price_note_it);
@@ -990,14 +992,14 @@ function applySheetInfo(resp){
     if (val('phone')) { info.phone = d.phone; $$('[data-info-phone]').forEach(el => el.textContent = d.phone); }
     if (val('phone_href')) {
       info.phoneHref = d.phone_href.replace(/[^+0-9]/g, '');
-      $$('[data-info-tel]').forEach(el => el.href = 'tel:' + info.phoneHref);
+      $$('[data-info-tel]').forEach(el => info.phoneHref ? el.href = 'tel:' + info.phoneHref : el.removeAttribute('href'));
     }
 
     /* --- indirizzo / quartiere --- */
     if (val('address')) info.address = d.address;
     if (val('cap'))     info.cap     = d.cap;
     if (val('city'))    info.city    = d.city;
-    if (val('district')) { info.district = d.district; $$('[data-info-district-line]').forEach(el => el.textContent = d.district + ' · Centro storico'); }
+    if (val('district')) { info.district = d.district; $$('[data-info-district-line]').forEach(el => el.textContent = d.district ? d.district + ' · Centro storico' : ''); }
     if (val('address') || val('cap') || val('city')) {
       const full = info.address + ', ' + info.cap + ' ' + info.city;
       $$('[data-info-addrfull]').forEach(el => el.textContent = full);
@@ -1007,7 +1009,7 @@ function applySheetInfo(resp){
 
     /* --- link esterni --- */
     const HREF_KEYS = ['maps_url','justeat_url','glovo_url','deliveroo_url','review_url','instagram_url','facebook_url'];
-    for (const k of HREF_KEYS) if (val(k) && /^https?:\/\//i.test(d[k])) $$('[data-info-href="' + k + '"]').forEach(el => el.href = d[k]);
+    for (const k of HREF_KEYS) if (val(k)) $$('[data-info-href="' + k + '"]').forEach(el => { if (/^https?:\/\//i.test(d[k])) el.href = d[k]; else el.removeAttribute('href'); });
 
     /* --- handle Instagram --- */
     if (val('instagram_handle')) $$('[data-info-ig-handle]').forEach(el => el.textContent = d.instagram_handle);

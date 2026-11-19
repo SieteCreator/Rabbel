@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://mpspdmjvjkqsssxgbxkm.supabase.co; connect-src https://mpspdmjvjkqsssxgbxkm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
+
+<meta name="theme-color" content="#191512">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rabel Menù">
+
+<title>Rabel — Gestione Menù</title>
+<style>
+:root{
+  --paper:#FBF4E4; --ink:#191512; --red:#E23B2E; --yellow:#FFC933; --teal:#0F7E93;
+  --green:#3E9B4F; --shadow:0 3px 0 var(--ink);
+}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+body{background:var(--paper); color:var(--ink); font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; padding-bottom:80px;}
+header{position:sticky; top:0; z-index:10; background:var(--ink); color:var(--paper); padding:10px 16px; display:flex; align-items:center; gap:10px;}
+header .logo{font-size:1.05rem; font-weight:800; letter-spacing:.5px; white-space:nowrap;}
+header .logo em{color:var(--yellow); font-style:normal;}
+header .spacer{flex:1;}
+header a.site{color:var(--yellow); font-size:.8rem; text-decoration:none; border:1px solid var(--yellow); border-radius:8px; padding:6px 10px;}
+#connDot{font-size:.75rem; color:#9be3b0; white-space:nowrap;}
+#connDot.off{color:#ffb3ab;}
+main{max-width:780px; margin:0 auto; padding:14px;}
+.card{background:#fff; border:2.5px solid var(--ink); border-radius:14px; box-shadow:var(--shadow); padding:14px; margin-bottom:14px;}
+h2{font-size:1.15rem; margin-bottom:10px;}
+label{display:block; font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.4px; margin:10px 0 4px; color:#4A443C;}
+input[type=text], input[type=number], input[type=url], input[type=password], textarea, select{
+  width:100%; padding:10px 12px; border:2px solid var(--ink); border-radius:10px; font-size:.95rem; background:#fff; font-family:inherit;
+}
+input:focus, textarea:focus, select:focus{outline:3px solid var(--yellow);}
+textarea{min-height:64px; resize:vertical;}
+.row{display:flex; gap:10px;} .row > *{flex:1;}
+.btn{display:inline-flex; align-items:center; gap:8px; border:2.5px solid var(--ink); background:var(--yellow); color:var(--ink); padding:12px 16px; border-radius:12px; font-weight:800; font-size:.95rem; cursor:pointer; box-shadow:var(--shadow);}
+.btn:active{transform:translateY(2px); box-shadow:0 1px 0 var(--ink);}
+.btn.red{background:var(--red); color:#fff;}
+.btn.ghost{background:#fff;}
+.btn.small{padding:8px 12px; font-size:.85rem; box-shadow:0 2px 0 var(--ink);}
+.btn:disabled{opacity:.5; pointer-events:none;}
+.muted{font-size:.8rem; color:#6b6459;}
+/* login */
+#view-login{max-width:520px; margin:40px auto;}
+.brand-hero{text-align:center; margin-bottom:16px;}
+.brand-hero .big{font-size:2rem; font-weight:900; letter-spacing:1px;}
+.brand-hero .big em{color:var(--red); font-style:normal;}
+.brand-hero p{margin-top:4px; color:#4A443C;}
+/* tabs */
+.tabs{display:flex; gap:8px; margin:10px 0 14px; overflow-x:auto; padding-bottom:4px;}
+.tab{flex:1; text-align:center; border:2.5px solid var(--ink); background:#fff; padding:10px 6px; border-radius:12px; font-weight:800; cursor:pointer; white-space:nowrap; font-size:.85rem;}
+.tab.active{background:var(--ink); color:var(--yellow);}
+/* dish list */
+.toolbar{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+.toolbar input{flex:2; min-width:150px;}
+.toolbar select{flex:1; min-width:130px;}
+.foto-item{display:flex; gap:12px; align-items:center; border:2px solid var(--ink); border-radius:12px; background:#fff; padding:10px; margin-bottom:10px;}
+.foto-thumb{width:84px; height:84px; flex:none; border-radius:14px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:1.7rem; overflow:hidden; background:repeating-linear-gradient(45deg,#F3EFE2,#F3EFE2 8px,#E9E4D2 8px,#E9E4D2 16px);}
+.foto-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+.foto-meta{flex:1; min-width:0;}
+.foto-meta .nm{font-weight:800; font-size:.95rem;}
+.foto-meta .pr{font-size:.75rem; color:#6b6459; margin-top:2px;}
+.foto-actions{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+.foto-actions .btn{padding:7px 11px; font-size:.8rem; box-shadow:0 2px 0 var(--ink);}
+.dish{border:2px solid var(--ink); border-radius:12px; background:#fff; margin-bottom:10px; overflow:hidden;}
+.dish-head{display:flex; align-items:center; gap:10px; padding:10px 12px; cursor:pointer;}
+.dish-head .nm{flex:1; font-weight:800;}
+.dish-head .pr{font-weight:800; background:var(--ink); color:var(--yellow); padding:2px 10px; border-radius:8px; font-size:.85rem; white-space:nowrap;}
+.dish-head .unavail{background:var(--red); color:#fff; font-size:.65rem; font-weight:800; border-radius:6px; padding:3px 6px; letter-spacing:.5px;}
+.dish-body{display:none; border-top:2px dashed var(--ink); padding:12px;}
+.dish.open .dish-body{display:block;}
+.chips{display:flex; flex-wrap:wrap; gap:6px;}
+.chip{border:2px solid var(--ink); border-radius:999px; padding:6px 10px; background:#fff; font-size:.8rem; font-weight:700; cursor:pointer; user-select:none;}
+.chip.on{background:var(--ink); color:#fff;}
+.switch{position:relative; width:56px; height:30px; flex:0 0 auto;}
+.switch input{opacity:0; width:100%; height:100%; position:absolute; cursor:pointer; z-index:2; margin:0;}
+.track{position:absolute; inset:0; border:2px solid var(--ink); border-radius:999px; background:#fff; transition:background .15s;}
+.thumb{position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%; background:var(--green); border:2px solid var(--ink); transition:left .15s;}
+.switch input:not(:checked) ~ .track{background:#ffd9d4;}
+.switch input:not(:checked) ~ .thumb{left:2px; background:var(--red);}
+.switch input:checked ~ .thumb{left:26px;}
+.actions{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+/* hours */
+.hour-row{display:flex; gap:8px; align-items:center; margin-bottom:8px;}
+.hour-row input:first-child{flex:1.1;}
+.hour-row input:last-child{flex:1.6;}
+.hour-row button{flex:0 0 auto;}
+/* toast & banner */
+#toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:12px 18px; border-radius:12px; font-weight:700; font-size:.9rem; z-index:50; display:none; max-width:90vw; text-align:center;}
+#banner{display:none; background:#ffd9d4; border:2px solid var(--red); color:#8a1508; padding:10px 12px; border-radius:10px; margin-bottom:12px; font-size:.85rem; font-weight:600; white-space:pre-wrap;}
+.group-title{font-size:.78rem; text-transform:uppercase; letter-spacing:.6px; color:var(--red); font-weight:900; margin:14px 0 6px; border-bottom:2px solid var(--ink); padding-bottom:4px;}
+.help li{margin:6px 0 6px 18px; font-size:.9rem; line-height:1.45;}
+@media (max-width:560px){ .row{flex-direction:column;} header .site{display:none;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🥖 PANINOTECA <em>RABEL</em> · Gestione</div>
+  <div class="spacer"></div>
+  <span id="connDot" class="off">● non connesso</span>
+  <a class="site" href="/" target="_blank" rel="noopener">Vedi il menù →</a>
+</header>
+
+<main>
+<div id="banner"></div>
+
+<!-- ═════════ LOGIN ═════════ -->
+<div id="view-login">
+  <div class="brand-hero">
+    <div class="big">PANINOTECA <em>RABEL</em></div>
+    <p>Gestione menù — accesso riservato al proprietario</p>
+  </div>
+  <div class="card">
+    <h2>Accedi al pannello</h2>
+    <p class="muted">Accesso riservato al proprietario. Inserisci la password configurata per l’app.</p>
+    <label for="f-token">Password</label>
+    <input type="password" id="f-token" placeholder="La tua password del pannello" autocomplete="current-password">
+    <div style="margin-top:14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <button class="btn" id="btn-login">Accedi</button>
+      <span class="muted" id="login-status"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════ APP ═════════ -->
+<div id="view-app" hidden>
+  <div class="tabs">
+    <button class="tab active" data-tab="piatti">🍽 Piatti</button>
+    <button class="tab" data-tab="foto">📷 Foto</button>
+    <button class="tab" data-tab="orari">🕒 Orari</button>
+    <button class="tab" data-tab="info">📇 Info &amp; Social</button>
+    <button class="tab" data-tab="aiuto">❓ Come funziona</button>
+  </div>
+
+  <div id="tab-piatti">
+    <div class="toolbar">
+      <input type="text" id="dish-search" placeholder="Cerca piatto…">
+      <select id="dish-cat"><option value="">Tutte le categorie</option></select>
+      <button class="btn small red" id="btn-add-toggle">+ Aggiungi piatto</button>
+      <button class="btn small ghost" id="btn-categories">Categorie</button>
+    </div>
+
+    <div class="card" id="add-dish-card" hidden>
+      <h2>Nuovo piatto</h2>
+      <label for="n-cat">Categoria *</label><select id="n-cat"></select>
+      <div class="row"><div><label for="n-name">Nome (IT) *</label><input type="text" id="n-name" placeholder="es. BeefBurger Deluxe"></div>
+      <div><label for="n-nameen">Nome (EN)</label><input type="text" id="n-nameen" placeholder="es. Deluxe BeefBurger"></div></div>
+      <div class="row"><div><label for="n-price">Prezzo € (vuoto = solo al banco)</label><input type="text" id="n-price" placeholder="es. 8,50" inputmode="decimal"></div>
+      <div><label>Disponibile al banco?</label><div class="switch"><input type="checkbox" id="n-avail" checked><span class="track"></span><span class="thumb"></span></div></div></div>
+      <label for="n-desc">Descrizione (IT)</label><textarea id="n-desc" placeholder="Ingredienti e note…"></textarea>
+      <label for="n-descen">Descrizione (EN)</label><textarea id="n-descen" placeholder="Ingredients & notes…"></textarea>
+      <label>Allergeni</label><div class="chips" id="n-allergens"></div>
+      <label>Badge</label><div class="chips" id="n-badges"></div>
+      <div class="actions"><button class="btn" id="btn-add-save">Aggiungi piatto</button><button class="btn ghost" id="btn-add-cancel">Annulla</button></div>
+    </div>
+
+    <div class="card" id="category-card" hidden><h2>Categorie</h2><p class="muted">Modifica i nomi, l’ordine o sposta i piatti prima di eliminare una categoria.</p><div id="categories-list"></div><label>Nuova categoria (IT)</label><input id="cat-new-it" type="text"><label>Nuova categoria (EN)</label><input id="cat-new-en" type="text"><div class="actions"><button class="btn" id="cat-add">Aggiungi categoria</button></div></div>
+    <div id="dish-list"></div>
+  </div>
+
+  <div id="tab-foto" hidden>
+    <div class="card">
+      <h2>Foto dei piatti</h2>
+      <p class="muted">Scatta o scegli una foto. Sarà caricata su Supabase e visibile sul sito.</p>
+      <p class="muted" id="foto-status" style="margin-top:10px;font-weight:700;"></p>
+    </div>
+    <div id="foto-list"></div>
+    <input type="file" id="foto-input" accept="image/*" hidden>
+  </div>
+
+  <div id="tab-orari" hidden>
+    <div class="card">
+      <h2>Orari di apertura</h2>
+      <p class="muted">Imposta ogni giorno come chiuso o inserisci una o più fasce orarie.</p>
+      <div id="hours-rows" style="margin-top:12px;"></div>
+
+      <div class="actions"><button class="btn" id="btn-save-hours">💾 Salva orari</button></div>
+    </div>
+  </div>
+
+  <div id="tab-info" hidden>
+    <div class="card">
+      <h2>Info locale, contatti e social</h2>
+      <div class="group-title">Contatti e posizione</div>
+      <div class="row"><div><label for="i-phone">Telefono (come si legge)</label><input type="text" id="i-phone" placeholder="011 060 6294"></div>
+      <div><label for="i-phonehref">Telefono per il tasto (senza spazi)</label><input type="text" id="i-phonehref" placeholder="+390110606294" inputmode="tel"></div></div>
+      <div class="row"><div><label for="i-address">Indirizzo</label><input type="text" id="i-address" placeholder="Via San Tommaso 4B"></div>
+      <div><label for="i-cap">CAP</label><input type="text" id="i-cap" placeholder="10122"></div>
+      <div><label for="i-city">Città</label><input type="text" id="i-city" placeholder="Torino"></div></div>
+      <label for="i-district">Quartiere</label><input type="text" id="i-district" placeholder="Quadrilatero Romano">
+      <label for="i-maps">Link Google Maps</label><input type="url" id="i-maps" placeholder="https://www.google.com/maps/…">
+      <label for="i-review">Link «Lascia una recensione»</label><input type="url" id="i-review" placeholder="https://search.google.com/local/writereview?…">
+
+      <div class="group-title">Consegne (Just Eat / Glovo / Deliveroo)</div>
+      <label for="i-justeat">Just Eat — URL menù</label><input type="url" id="i-justeat" placeholder="https://www.justeat.it/…">
+      <label for="i-glovo">Glovo — URL menù</label><input type="url" id="i-glovo" placeholder="https://glovoapp.com/…">
+      <label for="i-deliveroo">Deliveroo — URL menù</label><input type="url" id="i-deliveroo" placeholder="https://deliveroo.it/…">
+
+      <div class="group-title">Social</div>
+      <label for="i-ig">Instagram — URL profilo</label><input type="url" id="i-ig" placeholder="https://www.instagram.com/paninoteca.rabel/">
+      <label for="i-ighandle">Instagram — nome mostrato</label><input type="text" id="i-ighandle" placeholder="@paninoteca.rabel">
+      <label for="i-fb">Facebook — URL pagina</label><input type="url" id="i-fb" placeholder="https://www.facebook.com/p/…">
+
+      <div class="group-title">Google — punteggio</div>
+      <div class="row"><div><label for="i-rating">Voto</label><input type="text" id="i-rating" placeholder="4.8" inputmode="decimal"></div>
+      <div><label for="i-reviews">Numero recensioni</label><input type="text" id="i-reviews" placeholder="230" inputmode="numeric"></div></div>
+
+      <div class="group-title">Slogan del locale</div>
+      <label for="i-taglineit">Sottotitolo (IT)</label><input type="text" id="i-taglineit" placeholder="Panini, burger e street food nel cuore di Torino">
+      <label for="i-taglineen">Headline (EN)</label><input type="text" id="i-taglineen" placeholder="Panini, burgers and street food in the heart of Turin">
+
+      <div class="group-title">Note legali e consegna (facoltative)</div>
+      <label for="i-priceit">Nota prezzi (IT)</label><textarea id="i-priceit"></textarea>
+      <label for="i-priceen">Price note (EN)</label><textarea id="i-priceen"></textarea>
+      <label for="i-regit">Nota allergeni (IT)</label><textarea id="i-regit"></textarea>
+      <label for="i-regen">Allergen note (EN)</label><textarea id="i-regen"></textarea>
+      <label for="i-delit">Nota consegne (IT)</label><textarea id="i-delit"></textarea>
+      <label for="i-delen">Delivery note (EN)</label><textarea id="i-delen"></textarea>
+
+      <div class="actions"><button class="btn" id="btn-save-info">💾 Salva info</button></div>
+    </div>
+  </div>
+
+  <div id="tab-aiuto" hidden><div class="card"><h2>Come funziona</h2><p>Le modifiche salvate sono pubblicate tramite Supabase. Il sito si aggiorna automaticamente.</p><div class="actions"><button class="btn ghost small" id="btn-logout">Esci</button><button class="btn small" id="btn-reload">Ricarica</button></div></div></div>
+</div>
+
+</main>
+<div id="toast"></div>
+
+<script src="domain.js"></script>
+<script src="client.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
