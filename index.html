@@ -152,15 +152,18 @@ main{max-width:1180px;margin:0 auto;padding:26px 18px 60px}
 .allergen-btn .af-count{background:var(--red);color:#fff;border-radius:999px;min-width:18px;height:18px;display:none;align-items:center;justify-content:center;font-size:.62rem;padding:0 5px}
 .allergen-btn .af-count.show{display:inline-flex}
 .allergen-btn[aria-expanded="true"] .af-count,.allergen-btn.on .af-count{background:var(--yellow);color:var(--ink)}
-.allergen-panel{position:absolute;z-index:30;top:calc(100% + 8px);left:0;width:min(340px,calc(100vw - 36px));background:#FFFDF6;border:3px solid var(--ink);border-radius:14px;box-shadow:0 10px 30px rgba(25,21,18,.25);padding:6px;max-height:min(60vh,420px);overflow:auto}
-.allergen-hint{font-size:.64rem;letter-spacing:1.1px;text-transform:uppercase;font-weight:800;opacity:.6;padding:6px 10px 5px}
-.allergen-option{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:9px 10px;font-family:'Inter';font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer;line-height:1.25}
-.allergen-option:hover{background:rgba(25,21,18,.07)}
-.allergen-option .acode{flex:0 0 auto}
-.allergen-option .tick{flex:0 0 auto;margin-left:auto;opacity:0;font-weight:900}
-.allergen-option.on{background:var(--red);color:#fff}
-.allergen-option.on .acode{background:#fff;color:var(--ink);border-color:#fff}
-.allergen-option.on .tick{opacity:1}
+.allergen-panel{position:absolute;z-index:30;top:calc(100% + 8px);left:0;width:min(520px,calc(100vw - 32px));background:#fff;border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 12px 34px rgba(25,21,18,.28);padding:14px 14px 16px;max-height:min(70vh,460px);overflow:auto}
+.allergen-head{display:flex;align-items:baseline;gap:12px}
+.allergen-title{flex:1;font-size:.95rem;font-weight:900;line-height:1.25;letter-spacing:-.1px}
+.allergen-reset{flex:0 0 auto;background:none;border:0;font-family:'Inter';font-size:.8rem;font-weight:800;color:var(--red);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px}
+.allergen-reset[disabled]{opacity:.35;cursor:default;text-decoration:none}
+.allergen-sub{margin-top:6px;font-size:.72rem;line-height:1.45;color:#5E574E}
+.allergen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:12px}
+.allergen-chip{display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid rgba(25,21,18,.28);border-radius:12px;padding:9px 11px;font-family:'Inter';font-size:.76rem;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;line-height:1.2;transition:background .12s,border-color .12s,color .12s}
+.allergen-chip:hover{border-color:var(--ink)}
+.allergen-chip .code{font-weight:900;color:var(--red);letter-spacing:.3px}
+.allergen-chip.on{background:#FDE7E4;border-color:var(--red);color:var(--red)}
+.allergen-chip.on .code{color:var(--red)}
 .meat-filter{margin-left:auto;border:2.5px solid var(--ink);background:var(--green);color:#fff;border-radius:999px;padding:5px 13px;font-size:.75rem;font-weight:800;cursor:pointer;font-family:'Inter'}
 .meat-filter.off{background:#fff;color:var(--ink)}
 .result-count{font-size:.78rem;font-weight:700;opacity:.75;margin-top:8px}
@@ -780,7 +783,7 @@ const STR = {
     tagline:"Panini, burger e street food nel cuore di Torino",
     heroSub:"Il <strong>club sandwich</strong> da 9,00€, i burger di <strong>fassona piemontese</strong>, il <strong>lampredotto</strong> e la milza per i palati veri. Tutto preparato al momento, affacciati su <strong>Via San Tommaso</strong>.",
     ctaOrder:"Ordina online", reviews:"230+ recensioni su Google",
-    searchPh:"Cerca un piatto, un ingrediente…", exclude:"Escludi allergeni", allergenFilter:"Allergeni", allergenHint:"Tocca un allergene per escluderlo dai piatti", vegOnly:"Solo vegetariani",
+    searchPh:"Cerca un piatto, un ingrediente…", exclude:"Escludi allergeni", allergenFilter:"Allergeni", allergenTitle:"Escludi piatti con questi allergeni", allergenSub:"Regolamento UE 1169/2011 · Tocca uno o più allergeni per nascondere i piatti che li contengono", allergenReset:"Azzera", vegOnly:"Solo vegetariani",
     resultOne:"piatto in menù", resultMany:"piatti in menù", builderTitle:"Crea il tuo panino",
     noResT:"Nessun piatto trovato", noResP:"Prova a togliere qualche filtro oppure chiedi consiglio al banco.",
     all:"Tutti",
@@ -812,7 +815,7 @@ const STR = {
     tagline:"Panini, burgers and street food in the heart of Turin",
     heroSub:"The <strong>9.00€ club sandwich</strong>, <strong>Piedmontese Fassona</strong> burgers, <strong>lampredotto</strong> and milza for the brave. Everything made to order, on <strong>Via San Tommaso</strong>.",
     ctaOrder:"Order online", reviews:"230+ Google reviews",
-    searchPh:"Search for a dish, an ingredient…", exclude:"Exclude allergens", allergenFilter:"Allergens", allergenHint:"Tap an allergen to leave those dishes out", vegOnly:"Vegetarian only",
+    searchPh:"Search for a dish, an ingredient…", exclude:"Exclude allergens", allergenFilter:"Allergens", allergenTitle:"Exclude dishes with these allergens", allergenSub:"EU Regulation 1169/2011 · Tap one or more allergens to hide the dishes that contain them", allergenReset:"Reset", vegOnly:"Vegetarian only",
     resultOne:"dish on menu", resultMany:"dishes on menu", builderTitle:"Build your own",
     noResT:"No dishes found", noResP:"Try removing a filter — or ask us at the counter.",
     all:"All",
@@ -1053,6 +1056,7 @@ let lang = 'it'; try { lang = localStorage.getItem('rabel-lang') || 'it'; } catc
 let activeCat = 'all';
 let vegOnly = false;
 const excludedAllergens = new Set();
+const ALLERGEN_SHORT = {GL:{it:'Glutine',en:'Gluten'},LA:{it:'Latte',en:'Milk'},UO:{it:'Uova',en:'Eggs'},PE:{it:'Pesce',en:'Fish'},SO:{it:'Soia',en:'Soy'},SE:{it:'Sesamo',en:'Sesame'},SO2:{it:'Solfiti',en:'Sulphites'},FG:{it:'Frutta a guscio',en:'Tree nuts'}};
 
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
@@ -1075,24 +1079,36 @@ function renderPills(){
 
 /* allergeni: legenda + filtro in una tendina */
 function renderAllergenPanel(){
-  $('#allergenPanel').innerHTML = `<div class="allergen-hint">${escAttr(STR[lang].allergenHint)}</div>` + MENU.allergenLegend.map(a =>
-    `<button type="button" class="allergen-option" data-code="${a.code}" onclick="toggleAllergen('${a.code}')"><span class="acode">${a.code}</span><span>${escAttr(L(a))}</span><span class="tick" aria-hidden="true">✓</span></button>`
-  ).join('');
+  const t = STR[lang];
+  $('#allergenPanel').innerHTML =
+    `<div class="allergen-head"><b class="allergen-title">${escAttr(t.allergenTitle)}</b><button type="button" class="allergen-reset" onclick="resetAllergens()">${escAttr(t.allergenReset)}</button></div>` +
+    `<p class="allergen-sub">${escAttr(t.allergenSub)}</p>` +
+    `<div class="allergen-grid">` + MENU.allergenLegend.map(a => {
+      const short = ALLERGEN_SHORT[a.code] ? L(ALLERGEN_SHORT[a.code]) : L(a);
+      return `<button type="button" class="allergen-chip" data-code="${a.code}" title="${escAttr(L(a))}" aria-label="${escAttr(a.code + ' — ' + L(a))}" onclick="toggleAllergen('${a.code}')"><span class="code">${a.code}</span><span>${escAttr(short)}</span></button>`;
+    }).join('') + `</div>`;
   syncAllergenPanel();
 }
 /* Aggiorna gli stati senza ricostruire la tendina: il nodo toccato deve restare
    nel documento, altrimenti il click risulta «fuori» e la tendina si chiude. */
 function syncAllergenPanel(){
-  $$('.allergen-option').forEach(el => {
+  $$('.allergen-chip').forEach(el => {
     const on = excludedAllergens.has(el.dataset.code);
     el.classList.toggle('on', on);
     el.setAttribute('aria-pressed', String(on));
   });
   const n = excludedAllergens.size;
+  const reset = $('.allergen-reset');
+  if (reset) reset.disabled = n === 0;
   $('#allergenBtn').classList.toggle('on', n > 0);
   const count = $('#allergenCount');
   count.textContent = n;
   count.classList.toggle('show', n > 0);
+}
+function resetAllergens(){
+  if (!excludedAllergens.size) return;
+  excludedAllergens.clear();
+  syncAllergenPanel(); renderSections();
 }
 function closeAllergenPanel(){
   const panel = $('#allergenPanel');
