@@ -141,11 +141,26 @@ main{max-width:1180px;margin:0 auto;padding:26px 18px 60px}
 .pill:hover{transform:translateY(-2px)}
 .pill.active{background:var(--ink);color:var(--yellow)}
 .filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:2px dashed rgba(25,21,18,.3)}
-.filters b{font-size:.68rem;letter-spacing:1.4px;text-transform:uppercase}
 .chip-toggle{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:4px 11px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Inter';display:inline-flex;align-items:center;gap:6px;transition:all .12s}
 .chip-toggle .dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);display:inline-block;background:#fff}
 .chip-toggle.on{background:var(--red);color:#fff;border-color:var(--ink)}
 .chip-toggle.on .dot{background:#fff}
+.allergen-filter{position:relative}
+.allergen-btn{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 13px;font-size:.75rem;font-weight:800;font-family:'Inter';cursor:pointer;color:var(--ink);transition:background .12s,color .12s}
+.allergen-btn .af-ic{flex:0 0 auto}
+.allergen-btn[aria-expanded="true"],.allergen-btn.on{background:var(--ink);color:var(--yellow)}
+.allergen-btn .af-count{background:var(--red);color:#fff;border-radius:999px;min-width:18px;height:18px;display:none;align-items:center;justify-content:center;font-size:.62rem;padding:0 5px}
+.allergen-btn .af-count.show{display:inline-flex}
+.allergen-btn[aria-expanded="true"] .af-count,.allergen-btn.on .af-count{background:var(--yellow);color:var(--ink)}
+.allergen-panel{position:absolute;z-index:30;top:calc(100% + 8px);left:0;width:min(340px,calc(100vw - 36px));background:#FFFDF6;border:3px solid var(--ink);border-radius:14px;box-shadow:0 10px 30px rgba(25,21,18,.25);padding:6px;max-height:min(60vh,420px);overflow:auto}
+.allergen-hint{font-size:.64rem;letter-spacing:1.1px;text-transform:uppercase;font-weight:800;opacity:.6;padding:6px 10px 5px}
+.allergen-option{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:9px 10px;font-family:'Inter';font-size:.8rem;font-weight:700;color:var(--ink);cursor:pointer;line-height:1.25}
+.allergen-option:hover{background:rgba(25,21,18,.07)}
+.allergen-option .acode{flex:0 0 auto}
+.allergen-option .tick{flex:0 0 auto;margin-left:auto;opacity:0;font-weight:900}
+.allergen-option.on{background:var(--red);color:#fff}
+.allergen-option.on .acode{background:#fff;color:var(--ink);border-color:#fff}
+.allergen-option.on .tick{opacity:1}
 .meat-filter{margin-left:auto;border:2.5px solid var(--ink);background:var(--green);color:#fff;border-radius:999px;padding:5px 13px;font-size:.75rem;font-weight:800;cursor:pointer;font-family:'Inter'}
 .meat-filter.off{background:#fff;color:var(--ink)}
 .result-count{font-size:.78rem;font-weight:700;opacity:.75;margin-top:8px}
@@ -391,8 +406,14 @@ footer{background:var(--ink);color:#BDB5A9;border-top:4px solid var(--yellow);pa
     </div>
     <div class="pills" id="pillRow" role="tablist"></div>
     <div class="filters">
-      <b data-i18n="exclude">Escludi allergeni</b>
-      <span id="allergenChips"></span>
+      <div class="allergen-filter">
+        <button class="allergen-btn" id="allergenBtn" type="button" aria-expanded="false" aria-controls="allergenPanel" onclick="toggleAllergenPanel()">
+          <svg class="af-ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7.2V19l-4 2v-8.8L4 5Z"/></svg>
+          <span data-i18n="allergenFilter">Allergeni</span>
+          <span class="af-count" id="allergenCount">0</span>
+        </button>
+        <div class="allergen-panel" id="allergenPanel" hidden></div>
+      </div>
       <button class="meat-filter off" id="vegToggle" onclick="toggleVeg()" data-i18n="vegOnly">Solo vegetariani</button>
     </div>
     <div class="result-count" id="resultCount"></div>
@@ -759,7 +780,7 @@ const STR = {
     tagline:"Panini, burger e street food nel cuore di Torino",
     heroSub:"Il <strong>club sandwich</strong> da 9,00€, i burger di <strong>fassona piemontese</strong>, il <strong>lampredotto</strong> e la milza per i palati veri. Tutto preparato al momento, affacciati su <strong>Via San Tommaso</strong>.",
     ctaOrder:"Ordina online", reviews:"230+ recensioni su Google",
-    searchPh:"Cerca un piatto, un ingrediente…", exclude:"Escludi allergeni", vegOnly:"Solo vegetariani",
+    searchPh:"Cerca un piatto, un ingrediente…", exclude:"Escludi allergeni", allergenFilter:"Allergeni", allergenHint:"Tocca un allergene per escluderlo dai piatti", vegOnly:"Solo vegetariani",
     resultOne:"piatto in menù", resultMany:"piatti in menù", builderTitle:"Crea il tuo panino",
     noResT:"Nessun piatto trovato", noResP:"Prova a togliere qualche filtro oppure chiedi consiglio al banco.",
     all:"Tutti",
@@ -791,7 +812,7 @@ const STR = {
     tagline:"Panini, burgers and street food in the heart of Turin",
     heroSub:"The <strong>9.00€ club sandwich</strong>, <strong>Piedmontese Fassona</strong> burgers, <strong>lampredotto</strong> and milza for the brave. Everything made to order, on <strong>Via San Tommaso</strong>.",
     ctaOrder:"Order online", reviews:"230+ Google reviews",
-    searchPh:"Search for a dish, an ingredient…", exclude:"Exclude allergens", vegOnly:"Vegetarian only",
+    searchPh:"Search for a dish, an ingredient…", exclude:"Exclude allergens", allergenFilter:"Allergens", allergenHint:"Tap an allergen to leave those dishes out", vegOnly:"Vegetarian only",
     resultOne:"dish on menu", resultMany:"dishes on menu", builderTitle:"Build your own",
     noResT:"No dishes found", noResP:"Try removing a filter — or ask us at the counter.",
     all:"All",
@@ -1052,12 +1073,45 @@ function renderPills(){
   ).join('');
 }
 
-/* allergen chips */
-function renderAllergenChips(){
-  $('#allergenChips').innerHTML = MENU.allergenLegend.map(a =>
-    `<button class="chip-toggle${excludedAllergens.has(a.code)?' on':''}" onclick="toggleAllergen('${a.code}')" title="${L(a)}"><span class="dot"></span>${a.code}</button>`
+/* allergeni: legenda + filtro in una tendina */
+function renderAllergenPanel(){
+  $('#allergenPanel').innerHTML = `<div class="allergen-hint">${escAttr(STR[lang].allergenHint)}</div>` + MENU.allergenLegend.map(a =>
+    `<button type="button" class="allergen-option" data-code="${a.code}" onclick="toggleAllergen('${a.code}')"><span class="acode">${a.code}</span><span>${escAttr(L(a))}</span><span class="tick" aria-hidden="true">✓</span></button>`
   ).join('');
+  syncAllergenPanel();
 }
+/* Aggiorna gli stati senza ricostruire la tendina: il nodo toccato deve restare
+   nel documento, altrimenti il click risulta «fuori» e la tendina si chiude. */
+function syncAllergenPanel(){
+  $$('.allergen-option').forEach(el => {
+    const on = excludedAllergens.has(el.dataset.code);
+    el.classList.toggle('on', on);
+    el.setAttribute('aria-pressed', String(on));
+  });
+  const n = excludedAllergens.size;
+  $('#allergenBtn').classList.toggle('on', n > 0);
+  const count = $('#allergenCount');
+  count.textContent = n;
+  count.classList.toggle('show', n > 0);
+}
+function closeAllergenPanel(){
+  const panel = $('#allergenPanel');
+  if (!panel || panel.hidden) return;
+  panel.hidden = true;
+  $('#allergenBtn').setAttribute('aria-expanded', 'false');
+}
+function toggleAllergenPanel(){
+  const panel = $('#allergenPanel'), btn = $('#allergenBtn');
+  const open = panel.hidden;
+  if (open) renderAllergenPanel();
+  panel.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+}
+document.addEventListener('click', e => {
+  const inside = e.composedPath ? e.composedPath().some(n => n.classList && n.classList.contains('allergen-filter')) : !!e.target.closest('.allergen-filter');
+  if (!inside) closeAllergenPanel();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllergenPanel(); });
 
 /* hours table */
 function romeNow(){ return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Rome' })); }
@@ -1116,15 +1170,19 @@ function badgeHtml(b){
   const map = {pop:'b-pop', spicy:'b-spicy', raw:'b-raw', veg:'b-veg', banco:'b-banco', combo:'b-combo'};
   return `<span class="badge ${map[b]||''}">${L(MENU.badges[b])}</span>`;
 }
+/* Un piatto sparisce se contiene uno degli allergeni esclusi. Chi non dichiara
+   allergeni resta sempre visibile. */
+function allergenBlocked(item, excluded){
+  const list = (item && Array.isArray(item.allergens)) ? item.allergens : [];
+  return excluded.size ? list.some(a => excluded.has(a)) : false;
+}
 function itemMatches(item){
   const q = ($('#searchInput').value || '').trim().toLowerCase();
   if (q) {
     const hay = `${item.name.it} ${item.name.en} ${item.desc.it} ${item.desc.en}`.toLowerCase();
     if (!hay.includes(q)) return false;
   }
-  if (excludedAllergens.size) {
-    if (item.allergens.some(a => excludedAllergens.has(a))) return false;
-  }
+  if (allergenBlocked(item, excludedAllergens)) return false;
   if (vegOnly && !item.badges.includes('veg')) return false;
   return true;
 }
@@ -1220,12 +1278,12 @@ function setLang(l){
   $$('[data-i18n]').forEach(el => { const v = STR[l][el.dataset.i18n]; if (v) el.textContent = v; });
   $$('[data-i18n-html]').forEach(el => { const k = el.dataset.i18nHtml; el.innerHTML = k === 'regNote' ? REG_NOTE[l] : k === 'priceNote' ? PRICE_NOTE[l] : STR[l][k] ?? ''; });
   $$('[data-i18n-placeholder]').forEach(el => { el.placeholder = STR[l][el.dataset.i18nPlaceholder]; });
-  renderRibbon(); renderPills(); renderAllergenChips(); renderHours(); renderNowStatus(); renderBuilder(); renderSections();
+  renderRibbon(); renderPills(); renderAllergenPanel(); renderHours(); renderNowStatus(); renderBuilder(); renderSections();
 }
 function setCategory(id){ activeCat = id; renderPills(); renderSections(); }
 function toggleAllergen(code){
   excludedAllergens.has(code) ? excludedAllergens.delete(code) : excludedAllergens.add(code);
-  renderAllergenChips(); renderSections();
+  syncAllergenPanel(); renderSections();
 }
 function toggleVeg(){ vegOnly = !vegOnly; $('#vegToggle').classList.toggle('off', !vegOnly); renderSections(); }
 $('#searchInput').addEventListener('input', renderSections);
