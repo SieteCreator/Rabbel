@@ -52,6 +52,14 @@ test('il pannello segue la struttura richiesta: titolo, Azzera, chip compatte', 
   assert.match(html, /class="allergen-sub"/, 'sottotitolo con il Regolamento UE');
   assert.match(html, /Regolamento UE 1169\/2011/, 'riferimento normativo');
   assert.match(html, /class="allergen-grid"/, 'chip disposte a griglia');
+  // il blocco allunga il riquadro: sta nel flusso, tra i filtri e il conteggio
+  const afterFilters = html.slice(html.indexOf('class="filters"'));
+  assert.ok(html.indexOf('class="filters"') < html.indexOf('id="allergenPanel"'), 'il blocco segue la riga dei filtri');
+  assert.ok(html.indexOf('id="allergenPanel"') < html.indexOf('id="resultCount"'), 'il blocco precede il conteggio dei piatti');
+  assert.ok(afterFilters.includes('id="allergenPanel"'), 'il blocco è dentro il riquadro dei controlli');
+  const panelCss = html.match(/\.allergen-panel\{[^}]*\}/)[0];
+  assert.equal(/position:\s*absolute/.test(panelCss), false, 'il blocco non deve sovrapporsi alla pagina');
+  assert.equal(html.includes('closeAllergenPanel'), false, 'si chiude solo col pulsante, non da fuori');
   assert.match(html, /class="allergen-chip"/, 'singola chip');
   assert.match(html, /MENU\.allergenLegend\.map/, 'la tendina elenca TUTTI gli allergeni della legenda');
   assert.equal(/class="allergen-option"/.test(html), false, 'il vecchio elenco a righe non deve restare');

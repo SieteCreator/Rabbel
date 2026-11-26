@@ -145,14 +145,15 @@ main{max-width:1180px;margin:0 auto;padding:26px 18px 60px}
 .chip-toggle .dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);display:inline-block;background:#fff}
 .chip-toggle.on{background:var(--red);color:#fff;border-color:var(--ink)}
 .chip-toggle.on .dot{background:#fff}
-.allergen-filter{position:relative}
 .allergen-btn{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);background:#fff;border-radius:999px;padding:5px 13px;font-size:.75rem;font-weight:800;font-family:'Inter';cursor:pointer;color:var(--ink);transition:background .12s,color .12s}
 .allergen-btn .af-ic{flex:0 0 auto}
 .allergen-btn[aria-expanded="true"],.allergen-btn.on{background:var(--ink);color:var(--yellow)}
 .allergen-btn .af-count{background:var(--red);color:#fff;border-radius:999px;min-width:18px;height:18px;display:none;align-items:center;justify-content:center;font-size:.62rem;padding:0 5px}
 .allergen-btn .af-count.show{display:inline-flex}
 .allergen-btn[aria-expanded="true"] .af-count,.allergen-btn.on .af-count{background:var(--yellow);color:var(--ink)}
-.allergen-panel{position:absolute;z-index:30;top:calc(100% + 8px);left:0;width:min(520px,calc(100vw - 32px));background:#fff;border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 12px 34px rgba(25,21,18,.28);padding:14px 14px 16px;max-height:min(70vh,460px);overflow:auto}
+.allergen-panel{margin-top:12px;padding-top:14px;border-top:2px dashed rgba(25,21,18,.3);animation:af-open .16s ease-out}
+.allergen-panel[hidden]{display:none}
+@keyframes af-open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .allergen-head{display:flex;align-items:baseline;gap:12px}
 .allergen-title{flex:1;font-size:.95rem;font-weight:900;line-height:1.25;letter-spacing:-.1px}
 .allergen-reset{flex:0 0 auto;background:none;border:0;font-family:'Inter';font-size:.8rem;font-weight:800;color:var(--red);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:2px}
@@ -415,10 +416,10 @@ footer{background:var(--ink);color:#BDB5A9;border-top:4px solid var(--yellow);pa
           <span data-i18n="allergenFilter">Allergeni</span>
           <span class="af-count" id="allergenCount">0</span>
         </button>
-        <div class="allergen-panel" id="allergenPanel" hidden></div>
       </div>
       <button class="meat-filter off" id="vegToggle" onclick="toggleVeg()" data-i18n="vegOnly">Solo vegetariani</button>
     </div>
+    <div class="allergen-panel" id="allergenPanel" hidden></div>
     <div class="result-count" id="resultCount"></div>
   </div>
 
@@ -1110,12 +1111,6 @@ function resetAllergens(){
   excludedAllergens.clear();
   syncAllergenPanel(); renderSections();
 }
-function closeAllergenPanel(){
-  const panel = $('#allergenPanel');
-  if (!panel || panel.hidden) return;
-  panel.hidden = true;
-  $('#allergenBtn').setAttribute('aria-expanded', 'false');
-}
 function toggleAllergenPanel(){
   const panel = $('#allergenPanel'), btn = $('#allergenBtn');
   const open = panel.hidden;
@@ -1123,11 +1118,6 @@ function toggleAllergenPanel(){
   panel.hidden = !open;
   btn.setAttribute('aria-expanded', String(open));
 }
-document.addEventListener('click', e => {
-  const inside = e.composedPath ? e.composedPath().some(n => n.classList && n.classList.contains('allergen-filter')) : !!e.target.closest('.allergen-filter');
-  if (!inside) closeAllergenPanel();
-});
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllergenPanel(); });
 
 /* hours table */
 function romeNow(){ return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Rome' })); }
